@@ -542,11 +542,34 @@ function flash(msg, cls){
   $("#out").innerHTML = '<div class="meta">'+esc(msg)+'</div>';
 }
 
-function result(title, meta, eff){
+function result(title, meta, eff, extra){
   $("#out").className = "out ok";
   $("#out").innerHTML = '<div class="title">'+esc(title)+'</div>'+
     '<div class="meta">'+esc(meta)+'</div>' +
-    (eff ? '<div class="eff">'+esc(eff)+'</div>' : "");
+    (eff ? '<div class="eff">'+esc(eff)+'</div>' : "") +
+    (extra || "");
+}
+
+/* Total ladder cost of a runeword, down to runes that cannot be crafted. */
+function rwCost(runes){
+  var runeTotal = {}, gemTotal = {}, k;
+  runes.forEach(function(r){
+    var c = costOf(r);
+    for (k in c.runes) runeTotal[k] = (runeTotal[k] || 0) + c.runes[k];
+    for (k in c.gems)  gemTotal[k]  = (gemTotal[k]  || 0) + c.gems[k];
+  });
+  return {runes:runeTotal, gems:gemTotal};
+}
+
+function costHtml(runes){
+  var c = rwCost(runes), parts = [], k, any = false;
+  for (k in c.runes) { parts.push(c.runes[k] + "x " + k); if (c.runes[k] > 1) any = true; }
+  for (k in c.gems)  { parts.push(c.gems[k] + "x " + k); any = true; }
+  if (!any) return "";
+  return '<div class="eff"><b style="color:var(--accent)">Ladder cost from scratch:</b> ' +
+    esc(parts.join(", ")) +
+    '<div class="sm" style="margin-top:6px">Every rune climbed from the lowest one you cannot craft. ' +
+    'Dropping the high runes is almost always cheaper than climbing to them.</div></div>';
 }
 
 $("#btn-clear").onclick = function(){
@@ -574,7 +597,7 @@ function transmute(){
       return flash("Those runes make " + rw.n + ", but " + baseName(bases[0]) +
                    " is not a valid base. Valid: " + rw.bl + ".", "err");
     return result(rw.n, rw.r.join(" + ") + "  on  " + baseName(bases[0]),
-                  rw.e || "Effect not documented publicly yet.");
+                  rw.e || "Effect not documented publicly yet.", costHtml(rw.r));
   }
   if (bases.length > 1) return flash("Only one white base in the cube.", "err");
 
