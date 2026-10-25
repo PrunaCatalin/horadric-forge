@@ -98,6 +98,23 @@ input[type=search]:focus,select:focus{outline:none;border-color:var(--accent)}
 .cost div{background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
 .cost b{display:block;font-size:20px;font-family:Cinzel,serif;color:var(--accent-2)}
 .cost span{font-size:12px;color:var(--muted)}
+.reccols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:860px){.reccols{grid-template-columns:1fr}}
+.reclist{display:flex;flex-direction:column;gap:5px;max-height:380px;overflow-y:auto;padding-right:5px}
+.reclist::-webkit-scrollbar{width:8px}
+.reclist::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+.rec{display:block;width:100%;text-align:left;background:var(--panel-2);border:1px solid var(--line);
+  border-radius:8px;padding:9px 12px;cursor:pointer;font-family:inherit;color:var(--text)}
+.rec:hover{border-color:var(--accent);background:#2c2117}
+.rec.on{border-color:var(--accent-2);background:#32240f}
+.rec .nm{font-family:Cinzel,serif;color:var(--accent-2);font-size:14px;font-weight:600}
+.rec .ing{font-size:12px;color:#e0a86a;margin-top:3px}
+.rec .bs{font-size:11px;color:var(--dim);margin-top:3px;line-height:1.35}
+.basepick{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px;
+  background:#0f0b08;border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.basepick label{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.07em}
+.basepick select{max-width:260px}
+.basepick[hidden]{display:none}
 footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
 </style>
 </head>
@@ -131,8 +148,26 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
       <button class="ghost" id="btn-clear">Gole&#351;te</button>
       <span class="sm" id="cube-count">0 / 12</span>
     </div>
-    <div class="out" id="out"><div class="meta">Pune rune identice pentru upgrade, sau rune + o baz&#259; alb&#259; pentru runeword.</div></div>
+    <div class="basepick" id="base-pick" hidden></div>
+    <div class="out" id="out"><div class="meta">Alege o re&#355;et&#259; de mai jos, sau pune manual rune identice (upgrade) ori rune + o baz&#259; alb&#259; (runeword).</div></div>
   </main>
+</div>
+
+<div class="panel" style="margin-top:18px">
+  <h2>Re&#355;ete &mdash; click ca s&#259; umpli cubul</h2>
+  <div class="row" style="margin-bottom:14px">
+    <input type="search" id="rec-search" placeholder="Filtreaz&#259; dup&#259; nume, run&#259; sau item...">
+  </div>
+  <div class="reccols">
+    <div>
+      <h3>Upgrade de run&#259;</h3>
+      <div class="reclist" id="rec-ladder"></div>
+    </div>
+    <div>
+      <h3>Runeworduri</h3>
+      <div class="reclist" id="rec-rw"></div>
+    </div>
+  </div>
 </div>
 </section>
 
@@ -360,9 +395,12 @@ function result(title, meta, eff){
     (eff ? '<div class="eff">'+esc(eff)+'</div>' : "");
 }
 
-$("#btn-clear").onclick = function(){ cube = []; renderCube(); flash("Cub golit."); };
+$("#btn-clear").onclick = function(){
+  cube = []; curRW = null; markRec(null); hideBasePick(); renderCube();
+  flash("Cub golit.");
+};
 
-$("#btn-transmute").onclick = function(){
+function transmute(){
   var runes = [], gems = [], bases = [];
   cube.forEach(function(i){
     if (i.kind==="rune") runes.push(i.name);
@@ -409,7 +447,96 @@ $("#btn-transmute").onclick = function(){
   }
 
   flash("Combinatie nerecunoscuta. Rune identice = upgrade. Rune + baza alba = runeword.", "err");
-};
+}
+$("#btn-transmute").onclick = transmute;
+
+/* ---------------- LISTA DE RETETE (sub cub) ---------------- */
+var curRW = null;
+
+function ladderLabel(l){
+  return l.qty + "x " + l.in + (l.gem ? " + 1x " + l.gem : "");
+}
+
+function renderRecipes(q){
+  q = (q || "").toLowerCase().trim();
+
+  var lad = LADDER.filter(function(l){
+    if (l.gap) return false;
+    if (!q) return true;
+    return (l.out + " " + l.in + " " + (l.gem || "")).toLowerCase().indexOf(q) > -1;
+  }).map(function(l){
+    var i = LADDER.indexOf(l);
+    return '<button class="rec" data-t="lad" data-i="'+i+'">' +
+      '<div class="nm">Runa '+l.out+'</div>' +
+      '<div class="ing">'+ladderLabel(l)+'</div>' +
+      '<div class="bs">Fara baza. Doar rune'+(l.gem ? " + gem" : "")+'.</div>' +
+      '</button>';
+  }).join("");
+
+  $("#rec-ladder").innerHTML = lad ||
+    '<div class="sm">Nimic gasit. (Mal nu are reteta &mdash; se dropeaza.)</div>';
+
+  var rw = RWS.filter(function(w){
+    if (!q) return true;
+    return (w.n + " " + w.r.join(" ") + " " + w.bl).toLowerCase().indexOf(q) > -1;
+  }).map(function(w){
+    var i = RWS.indexOf(w);
+    return '<button class="rec" data-t="rw" data-i="'+i+'">' +
+      '<div class="nm">'+w.n+'</div>' +
+      '<div class="ing">'+w.r.join(" + ")+'</div>' +
+      '<div class="bs">Iteme valide: '+w.bl+'</div>' +
+      '</button>';
+  }).join("");
+
+  $("#rec-rw").innerHTML = rw || '<div class="sm">Nimic gasit.</div>';
+
+  $$(".rec").forEach(function(b){
+    b.onclick = function(){ loadRecipe(b.dataset.t, +b.dataset.i, b); };
+  });
+}
+
+function markRec(el){
+  $$(".rec").forEach(function(b){ b.classList.toggle("on", b === el); });
+}
+
+function hideBasePick(){ $("#base-pick").hidden = true; }
+
+function showBasePick(rw){
+  var p = $("#base-pick");
+  p.hidden = false;
+  p.innerHTML = '<label for="bsel">Item de baz&#259;</label>' +
+    '<select id="bsel">' + rw.b.map(function(id){
+      return '<option value="'+id+'">'+baseName(id)+'</option>';
+    }).join("") + '</select>' +
+    '<span class="sm">' + rw.b.length + ' iteme valide pentru ' + rw.n + '</span>';
+  $("#bsel").value = cube.filter(function(i){ return i.kind === "base"; })[0].name;
+  $("#bsel").onchange = function(){
+    cube = cube.filter(function(i){ return i.kind !== "base"; });
+    cube.push({kind:"base", name:this.value});
+    renderCube(); transmute();
+  };
+}
+
+function loadRecipe(type, i, el){
+  cube = [];
+  if (type === "lad") {
+    curRW = null; hideBasePick();
+    var l = LADDER[i];
+    for (var k=0;k<l.qty;k++) cube.push({kind:"rune", name:l.in});
+    if (l.gem) cube.push({kind:"gem", name:l.gem});
+  } else {
+    var w = RWS[i];
+    curRW = i;
+    w.r.forEach(function(r){ cube.push({kind:"rune", name:r}); });
+    cube.push({kind:"base", name:w.b[0]});
+  }
+  markRec(el || null);
+  renderCube();
+  if (type === "rw") showBasePick(RWS[i]);
+  transmute();
+}
+
+$("#rec-search").oninput = function(e){ renderRecipes(e.target.value); markRec(null); };
 
 /* ---------------- TABEL RUNEWORDURI ---------------- */
 function renderRW(q){
@@ -478,7 +605,7 @@ $("#other-table tbody").innerHTML = OTHER.map(function(o){
 }).join("");
 
 /* ---------------- INIT ---------------- */
-renderPalette(); renderCube(); renderRW(); renderLadder(); renderCost();
+renderPalette(); renderCube(); renderRecipes(""); renderRW(); renderLadder(); renderCost();
 </script>
 </body>
 </html>
