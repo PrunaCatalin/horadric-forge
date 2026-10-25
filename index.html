@@ -81,6 +81,9 @@ table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
 th{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
 tr:hover td{background:#1d1611}
+tr.clickrow{cursor:pointer}
+tr.clickrow:hover td{background:#2c2117}
+tr.clickrow:hover td.rw{color:#fff}
 .rw{font-family:Cinzel,serif;color:var(--accent-2);font-weight:600}
 .rn{color:#e0a86a;font-weight:500}
 .sm{font-size:13px;color:var(--muted)}
@@ -178,6 +181,7 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
   <div class="row" style="margin-bottom:14px">
     <input type="search" id="rw-search" placeholder="Search runeword, rune or base item...">
   </div>
+  <p class="sm" style="margin:-4px 0 12px">Click any row to load it into the cube and see what its runes cost.</p>
   <div style="overflow-x:auto"><table id="rw-table">
     <thead><tr><th>Runeword</th><th>Runes</th><th>Base item</th><th>Effect</th></tr></thead>
     <tbody></tbody>
@@ -487,11 +491,12 @@ function esc(s){
 function sortedKey(arr){ return arr.slice().sort().join("|"); }
 
 /* ---------------- TABS ---------------- */
+function showView(name){
+  $$(".tab").forEach(function(x){ x.classList.toggle("on", x.dataset.v === name); });
+  $$(".view").forEach(function(v){ v.classList.toggle("on", v.id === "v-" + name); });
+}
 $$(".tab").forEach(function(t){
-  t.onclick = function(){
-    $$(".tab").forEach(function(x){ x.classList.toggle("on", x===t); });
-    $$(".view").forEach(function(v){ v.classList.toggle("on", v.id==="v-"+t.dataset.v); });
-  };
+  t.onclick = function(){ showView(t.dataset.v); };
 });
 
 /* ---------------- CUBE ---------------- */
@@ -724,10 +729,19 @@ function renderRW(q){
            w.r.join(" ").toLowerCase().indexOf(q) > -1 ||
            w.bl.toLowerCase().indexOf(q) > -1;
   }).map(function(w){
-    return '<tr><td class="rw">'+w.n+'</td><td class="rn">'+w.r.join(" + ")+'</td>'+
+    return '<tr class="clickrow" data-i="'+RWS.indexOf(w)+'"><td class="rw">'+w.n+'</td>'+
+           '<td class="rn">'+w.r.join(" + ")+'</td>'+
            '<td class="sm">'+w.bl+'</td><td class="sm">'+(w.e || "—")+'</td></tr>';
   }).join("");
   $("#rw-table tbody").innerHTML = rows || '<tr><td colspan="4" class="sm">Nothing found.</td></tr>';
+  $$("#rw-table .clickrow").forEach(function(tr){
+    tr.onclick = function(){
+      var i = +tr.dataset.i;
+      showView("cube");
+      loadRecipe("rw", i, document.querySelector('.rec[data-t="rw"][data-i="'+i+'"]'));
+      $("#out").scrollIntoView({block:"center"});
+    };
+  });
 }
 $("#rw-search").oninput = function(e){ renderRW(e.target.value); };
 
