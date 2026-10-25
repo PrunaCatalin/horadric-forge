@@ -129,6 +129,7 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
   <button class="tab on" data-v="cube">Cube</button>
   <button class="tab" data-v="rw">Runewords</button>
   <button class="tab" data-v="ladder">Rune Ladder</button>
+  <button class="tab" data-v="myth">Mythics</button>
   <button class="tab" data-v="other">Other Recipes</button>
 </div>
 
@@ -197,6 +198,42 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
     <h2>Full ladder</h2>
     <div class="ladder" id="ladder"></div>
   </main>
+</div>
+</section>
+
+<section class="view" id="v-myth">
+<div class="panel">
+  <h2>All 13 Mythic Uniques</h2>
+  <div class="row" style="margin-bottom:14px">
+    <input type="search" id="myth-search" placeholder="Search name, slot or class...">
+  </div>
+  <div style="overflow-x:auto"><table id="myth-table">
+    <thead><tr><th>Item</th><th>Slot</th><th>Classes</th><th>Unique effect</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <div class="note">
+    <b>There is no recipe for a specific Mythic any more.</b> Older guides still list per-item rune
+    recipes (Selig as 2 Sparks + 6x Vex + 6x Thul + 6x Tun at the Jeweler). That system is gone.
+    Three routes work now:
+    <br><br>
+    <b>1. Drops.</b> Torment I or higher. Any Uber/Lair boss can drop any Mythic, reported at the same
+    rate for each, around 2%. Duriel and Andariel are often named as the best targets.
+    <br>
+    <b>2. Random Mythic Unique</b> &mdash; 3x Resplendent Spark. Gives one of the 13 at random; you
+    cannot pick. Sources disagree on the vendor, Blacksmith or Jeweler.
+    <br>
+    <b>3. Horadric Cube, Season 15</b> &mdash; 1x Ancestral Unique at 900 Item Power + 5x Resplendent
+    Spark upgrades <i>that item</i> to Mythic rarity and keeps its affixes. It does not hand you a
+    named Mythic Unique from this list.
+    <br><br>
+    Salvaging a Mythic returns 1 Resplendent Spark. Mythic Uniques cannot be traded.
+  </div>
+  <div class="note">
+    Marked <b>(?)</b> below: sources disagree. The slot and effect values come from the current
+    d4guides listing; the Season 15 PTR data and older databases give different numbers for
+    Harlequin Crest's skill ranks, The Grandfather's Critical Strike Damage, and the slots for
+    Heir of Perdition, Shattered Vow and Ahavarion. Verify in game before you spend Sparks.
+  </div>
 </div>
 </section>
 
@@ -342,6 +379,35 @@ var OTHER = [
   {n:"Amalgamation &mdash; Runes",
    m:"5x the same rune",
    o:"2 recipes. Separate from the rune ladder above, which is the cheaper route."}
+];
+
+var MYTHICS = [
+  {n:"Ahavarion, Spear of Lycander", s:"Staff (2H) (?)", c:"Sorcerer, Druid",
+   e:"Killing an Elite grants a random Shrine effect for 20 seconds, once every 30 seconds."},
+  {n:"Andariel's Visage", s:"Helm", c:"All",
+   e:"Lucky Hit, up to 20% chance, triggers a poison nova dealing 40% of the damage over 5 seconds to nearby enemies."},
+  {n:"Doombringer", s:"1H Sword", c:"All",
+   e:"Lucky Hit, up to 40% chance, deals 1,500 Shadow damage to nearby enemies and cuts their damage by 25% for 5 seconds."},
+  {n:"El'Druin, Sword of Justice", s:"1H Sword", c:"All",
+   e:"Attacks condemn enemies. When they become Injured they take 1,151,400 Holy damage per condemn stack, up to 100 stacks."},
+  {n:"Harlequin Crest", s:"Helm", c:"All",
+   e:"+6 Ranks to all Skills (?). Older listings say +4, plus Max Life, Armor and Damage Reduction."},
+  {n:"Heir of Perdition", s:"Helm (?)", c:"All",
+   e:"Grants Mother's Favor, which adds 15% increased damage. Slaying enemies steals 15% Critical Strike Chance from nearby allies who have it."},
+  {n:"Melted Heart of Selig", s:"Amulet", c:"All",
+   e:"Damage hits your Primary Resource before your Life and is greatly reduced that way. Primary Resource is doubled, Maximum Life is cut by 75%."},
+  {n:"Nesekem, the Herald", s:"Glaive", c:"Spiritborn",
+   e:"Marks a nearby enemy every 2 seconds. Marked enemies are Vulnerable and your attacks on them always Critically Strike. 10 hits clear the mark."},
+  {n:"Ring of Starless Skies", s:"Ring", c:"All",
+   e:"Spending Primary Resource lowers Skill resource costs and grants 10% increased damage for 3 seconds, stacking to 50%."},
+  {n:"Shattered Vow", s:"2H Polearm (?)", c:"Barbarian, Druid, Spiritborn",
+   e:"Enemies carrying more Damage over Time than their remaining Life are Executed."},
+  {n:"Shroud of False Death", s:"Chest Armor", c:"All",
+   e:"Fatal damage instead heals you to full, grants a Barrier worth 100% of Maximum Life for 3 seconds and knocks back nearby enemies. Disabled until you return to town."},
+  {n:"The Grandfather", s:"2H Sword", c:"Barbarian, Necromancer, Paladin, Warlock",
+   e:"+120% Critical Strike Damage (?). Older listings say +150%. Its affixes roll above the normal cap."},
+  {n:"Tyrael's Might", s:"Chest Armor", c:"All",
+   e:"20% Damage Reduction. While at full Life, your Skills unleash a divine barrage dealing 13,817 damage."}
 ];
 
 /* ---------------- HELPERS ---------------- */
@@ -580,6 +646,19 @@ function renderRW(q){
 }
 $("#rw-search").oninput = function(e){ renderRW(e.target.value); };
 
+/* ---------------- MYTHICS TABLE ---------------- */
+function renderMyth(q){
+  q = (q || "").toLowerCase().trim();
+  var rows = MYTHICS.filter(function(m){
+    return !q || (m.n + " " + m.s + " " + m.c).toLowerCase().indexOf(q) > -1;
+  }).map(function(m){
+    return '<tr><td class="rw">'+m.n+'</td><td class="sm">'+m.s+'</td>'+
+           '<td class="sm">'+m.c+'</td><td class="sm">'+m.e+'</td></tr>';
+  }).join("");
+  $("#myth-table tbody").innerHTML = rows || '<tr><td colspan="4" class="sm">Nothing found.</td></tr>';
+}
+$("#myth-search").oninput = function(e){ renderMyth(e.target.value); };
+
 /* ---------------- LADDER VIEW ---------------- */
 function renderLadder(){
   $("#ladder").innerHTML = LADDER.map(function(l){
@@ -632,7 +711,7 @@ $("#other-table tbody").innerHTML = OTHER.map(function(o){
 }).join("");
 
 /* ---------------- INIT ---------------- */
-renderPalette(); renderCube(); renderRecipes(""); renderRW(); renderLadder(); renderCost();
+renderPalette(); renderCube(); renderRecipes(""); renderRW(); renderMyth(); renderLadder(); renderCost();
 </script>
 </body>
 </html>
