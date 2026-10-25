@@ -207,6 +207,12 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
     <thead><tr><th>Recipe</th><th>Materials</th><th>Notes</th></tr></thead>
     <tbody></tbody>
   </table></div>
+  <div class="note">
+    <b>Sigils are not a cube recipe.</b> You craft them at the Occultist, not here. A Nightmare Sigil
+    costs 60 Sigil Powder plus 4,000 gold, and salvaging one returns 20 Sigil Powder (down from 25 in
+    patch 3.2.0). An Infernal Horde Compass costs 500 Sigil Powder (down from 666) and a random Magic
+    Tribute costs 100 (down from 200). The cube only takes sigils as an Amalgamation input.
+  </div>
 </div>
 </section>
 
@@ -315,7 +321,25 @@ var OTHER = [
    m:"1x specific rune (e.g. Prid -> Bac, Teb -> Igni) + 5x Rare Runes + 5x Legendary Runes", o:""},
   {n:"Wirt's Lucky Coin",
    m:"1x Splinter of Terror + 1x Splinter of Destruction + 1x Splinter of Hatred",
-   o:"A step on the path to the Hellfire Torch. Separate from runewords."}
+   o:"A step on the path to the Hellfire Torch. Separate from runewords."},
+  {n:"Amalgamation &mdash; Nightmare Sigils",
+   m:"5x the same Nightmare Sigil",
+   o:"Reported to produce an Escalation Sigil, which pays out more Primordial Dust. Only one source names the output, so treat it as unconfirmed."},
+  {n:"Amalgamation &mdash; Tributes",
+   m:"5x the same Tribute (Ingenuity, Refinement, Armaments, Heritage, Harmony, the Horadrim, and their Lesser/Greater versions)",
+   o:"10 recipes. Each gives a random item of the next tier up, e.g. 5 Rare Tributes into 1 Legendary Tribute."},
+  {n:"Amalgamation &mdash; Gems",
+   m:"5x Grand Gem, or 5x Horadric Gem",
+   o:"14 recipes. 5 Grand Gems give a Horadric Gem; 5 Horadric Gems give a Flawless Horadric Gem."},
+  {n:"Amalgamation &mdash; Boss Trophies",
+   m:"5x the same Boss Trophy",
+   o:"14 recipes. Rolls a random Unique from that boss's drop pool."},
+  {n:"Amalgamation &mdash; Soul Splinters",
+   m:"5x the same Soul Splinter",
+   o:"24 recipes, the largest amalgamation group."},
+  {n:"Amalgamation &mdash; Runes",
+   m:"5x the same rune",
+   o:"2 recipes. Separate from the rune ladder above, which is the cheaper route."}
 ];
 
 /* ---------------- HELPERS ---------------- */
