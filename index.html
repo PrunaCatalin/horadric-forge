@@ -203,7 +203,15 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
 
 <section class="view" id="v-myth">
 <div class="panel">
-  <h2>All 13 Mythic Uniques</h2>
+  <h2>The 13 Iconic Mythic Uniques</h2>
+  <div class="note">
+    <b>&quot;Mythic&quot; means two different things.</b> These 13 are the Iconic Mythics: fixed items
+    that drop at Mythic rarity and exist only as Mythics. Separately, <i>any</i> Ancestral Unique at
+    900 Item Power can be raised to Mythic rarity with the Season 15 cube recipe, keeping its affixes,
+    Tempering and Masterworking. That is why a Stone of Jordan can read
+    <i>Ancestral Mythic Unique Ring</i> without being on this list &mdash; it is a Legacy Unique that
+    was upgraded, not an Iconic Mythic. The Season 15 Legacy Uniques are in the second table below.
+  </div>
   <div class="row" style="margin-bottom:14px">
     <input type="search" id="myth-search" placeholder="Search name, slot or class...">
   </div>
@@ -234,6 +242,20 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
     Harlequin Crest's skill ranks, The Grandfather's Critical Strike Damage, and the slots for
     Heir of Perdition, Shattered Vow and Ahavarion. Verify in game before you spend Sparks.
   </div>
+</div>
+
+<div class="panel" style="margin-top:18px">
+  <h2>Season 15 Legacy Uniques</h2>
+  <div class="note">
+    Nine Diablo II classics brought back in Hell&rsquo;s Legacy. They drop as ordinary Uniques in
+    Season 15 and on the Eternal Realm, and each one can be pushed to Mythic rarity through the cube.
+    Most also have a Talisman Charm version. Effect values come from patch 3.2.1 client data and are
+    not confirmed in game, so treat the ranges as approximate.
+  </div>
+  <div style="overflow-x:auto"><table id="legacy-table">
+    <thead><tr><th>Item</th><th>Slot</th><th>Classes</th><th>Unique effect</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
 </div>
 </section>
 
@@ -408,6 +430,27 @@ var MYTHICS = [
    e:"+120% Critical Strike Damage (?). Older listings say +150%. Its affixes roll above the normal cap."},
   {n:"Tyrael's Might", s:"Chest Armor", c:"All",
    e:"20% Damage Reduction. While at full Life, your Skills unleash a divine barrage dealing 13,817 damage."}
+];
+
+var LEGACY = [
+  {n:"Stone of Jordan", s:"Ring", c:"All",
+   e:"Every resistance is set to your highest, and you deal 15-25% more damage of that element. Has a Talisman Charm version."},
+  {n:"Leoric's Crown", s:"Helm", c:"All",
+   e:"Counts as jewelry for Soul Splinters and boosts socketed gems by 75-100%. Item only, no Charm."},
+  {n:"Squirt's Blouse", s:"Chest Armor", c:"All",
+   e:"Up to 30-50% more damage while you stay unhit, but up to 50% more damage taken. Has a Charm version."},
+  {n:"Nemesis Bracers", s:"Gloves", c:"All",
+   e:"Shrines spawn an elite pack. Has a Charm version."},
+  {n:"In-Geom", s:"1H Sword", c:"All except Sorcerer and Spiritborn",
+   e:"Killing an elite pack cuts cooldowns by 8-10 seconds for 15 seconds. Sorcerers and Spiritborn use it through its Charm."},
+  {n:"Arioc's Needle", s:"2H Polearm", c:"Barbarian, Druid, Spiritborn",
+   e:"35-50% Deadly Strike chance for 70-100% more damage. Has a Charm version."},
+  {n:"Henri's Perquisition", s:"Focus (off-hand)", c:"Sorcerer, Necromancer, Warlock",
+   e:"Your primary stat equals 85-115% of your Dexterity. Has a Charm version."},
+  {n:"The Furnace", s:"2H Mace", c:"Barbarian, Druid, Necromancer, Paladin, Warlock",
+   e:"150-200% more damage against elites. Has a Charm version."},
+  {n:"Messerschmidt's Reaver", s:"2H Axe", c:"Barbarian, Druid, Necromancer, Paladin, Warlock",
+   e:"Lucky Hits cause a Fire explosion and cut cooldowns by 1 second. Item only, no Charm."}
 ];
 
 /* ---------------- HELPERS ---------------- */
@@ -658,6 +701,11 @@ function renderMyth(q){
   $("#myth-table tbody").innerHTML = rows || '<tr><td colspan="4" class="sm">Nothing found.</td></tr>';
 }
 $("#myth-search").oninput = function(e){ renderMyth(e.target.value); };
+
+$("#legacy-table tbody").innerHTML = LEGACY.map(function(m){
+  return '<tr><td class="rw">'+m.n+'</td><td class="sm">'+m.s+'</td>'+
+         '<td class="sm">'+m.c+'</td><td class="sm">'+m.e+'</td></tr>';
+}).join("");
 
 /* ---------------- LADDER VIEW ---------------- */
 function renderLadder(){
