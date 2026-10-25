@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="ro">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Horadric Forge</title>
-<meta name="description" content="Simulator de Horadric Cube pentru Diablo 4 Season 15: rune, gemuri, runeworduri.">
+<meta name="description" content="Horadric Cube simulator for Diablo 4 Season 15: runes, gems and runewords.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -122,49 +122,49 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
 <div class="wrap">
 <header>
   <h1>Horadric Forge</h1>
-  <div class="sub">Simulator Horadric Cube &middot; Diablo IV Season 15 &mdash; Hell&rsquo;s Legacy</div>
+  <div class="sub">Horadric Cube simulator &middot; Diablo IV Season 15 &mdash; Hell&rsquo;s Legacy</div>
 </header>
 
 <div class="tabs">
-  <button class="tab on" data-v="cube">Cubul</button>
-  <button class="tab" data-v="rw">Runeworduri</button>
-  <button class="tab" data-v="ladder">Scara de rune</button>
-  <button class="tab" data-v="other">Alte re&#355;ete</button>
+  <button class="tab on" data-v="cube">Cube</button>
+  <button class="tab" data-v="rw">Runewords</button>
+  <button class="tab" data-v="ladder">Rune Ladder</button>
+  <button class="tab" data-v="other">Other Recipes</button>
 </div>
 
 <section class="view on" id="v-cube">
 <div class="grid">
   <aside class="panel">
-    <h2>Inventar</h2>
-    <h3>Rune</h3><div class="chips" id="p-runes"></div>
-    <h3>Gemuri</h3><div class="chips" id="p-gems"></div>
-    <h3>Baze (albe)</h3><div class="chips" id="p-bases"></div>
+    <h2>Inventory</h2>
+    <h3>Runes</h3><div class="chips" id="p-runes"></div>
+    <h3>Gems</h3><div class="chips" id="p-gems"></div>
+    <h3>Base items (white)</h3><div class="chips" id="p-bases"></div>
   </aside>
   <main class="panel">
-    <h2>Cub</h2>
+    <h2>Cube</h2>
     <div class="cube" id="cube"></div>
     <div class="row">
       <button class="act" id="btn-transmute">Transmute</button>
-      <button class="ghost" id="btn-clear">Gole&#351;te</button>
+      <button class="ghost" id="btn-clear">Clear</button>
       <span class="sm" id="cube-count">0 / 12</span>
     </div>
     <div class="basepick" id="base-pick" hidden></div>
-    <div class="out" id="out"><div class="meta">Alege o re&#355;et&#259; de mai jos, sau pune manual rune identice (upgrade) ori rune + o baz&#259; alb&#259; (runeword).</div></div>
+    <div class="out" id="out"><div class="meta">Pick a recipe below, or fill the cube by hand: identical runes for an upgrade, runes plus a white base for a runeword.</div></div>
   </main>
 </div>
 
 <div class="panel" style="margin-top:18px">
-  <h2>Re&#355;ete &mdash; click ca s&#259; umpli cubul</h2>
+  <h2>Recipes &mdash; click to fill the cube</h2>
   <div class="row" style="margin-bottom:14px">
-    <input type="search" id="rec-search" placeholder="Filtreaz&#259; dup&#259; nume, run&#259; sau item...">
+    <input type="search" id="rec-search" placeholder="Filter by name, rune or item...">
   </div>
   <div class="reccols">
     <div>
-      <h3>Upgrade de run&#259;</h3>
+      <h3>Rune upgrades</h3>
       <div class="reclist" id="rec-ladder"></div>
     </div>
     <div>
-      <h3>Runeworduri</h3>
+      <h3>Runewords</h3>
       <div class="reclist" id="rec-rw"></div>
     </div>
   </div>
@@ -173,28 +173,28 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
 
 <section class="view" id="v-rw">
 <div class="panel">
-  <h2>Toate cele 19 runeworduri</h2>
+  <h2>All 19 runewords</h2>
   <div class="row" style="margin-bottom:14px">
-    <input type="search" id="rw-search" placeholder="Caut&#259; runeword, run&#259; sau baz&#259;...">
+    <input type="search" id="rw-search" placeholder="Search runeword, rune or base item...">
   </div>
   <div style="overflow-x:auto"><table id="rw-table">
-    <thead><tr><th>Runeword</th><th>Rune</th><th>Baz&#259;</th><th>Efect</th></tr></thead>
+    <thead><tr><th>Runeword</th><th>Runes</th><th>Base item</th><th>Effect</th></tr></thead>
     <tbody></tbody>
   </table></div>
-  <div class="note">Baza alb&#259; <b>Ancestral</b> produce runeword Ancestral. Folose&#351;te mereu baze Ancestral.</div>
+  <div class="note">An <b>Ancestral</b> white base produces an Ancestral runeword. Always use Ancestral bases.</div>
 </div>
 </section>
 
 <section class="view" id="v-ladder">
 <div class="grid">
   <aside class="panel">
-    <h2>Calculator</h2>
-    <p class="sm">Alege runa &#355;int&#259; &#351;i vezi exact ce &#238;&#355;i trebuie de la baz&#259;.</p>
+    <h2>Cost calculator</h2>
+    <p class="sm">Pick a target rune to see what it costs from the bottom of the chain.</p>
     <select id="target"></select>
     <div id="cost"></div>
   </aside>
   <main class="panel">
-    <h2>Scara complet&#259;</h2>
+    <h2>Full ladder</h2>
     <div class="ladder" id="ladder"></div>
   </main>
 </div>
@@ -202,21 +202,21 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
 
 <section class="view" id="v-other">
 <div class="panel">
-  <h2>Celelalte re&#355;ete din cub</h2>
+  <h2>The rest of the cube recipes</h2>
   <div style="overflow-x:auto"><table id="other-table">
-    <thead><tr><th>Re&#355;et&#259;</th><th>Materiale</th><th>Note</th></tr></thead>
+    <thead><tr><th>Recipe</th><th>Materials</th><th>Notes</th></tr></thead>
     <tbody></tbody>
   </table></div>
 </div>
 </section>
 
 <footer>
-  Date verificate pe Maxroll &#351;i d4guides (S15, patch 3.2.x). Fan-made, neafiliat cu Blizzard Entertainment.
+  Recipe data cross-checked against Maxroll and d4guides (S15, patch 3.2.x). Fan-made, not affiliated with Blizzard Entertainment.
 </footer>
 </div>
 
 <script>
-/* ---------------- DATE ---------------- */
+/* ---------------- DATA ---------------- */
 var RUNES = ["Tir","Eth","Ith","Tal","Ral","Ort","Thul","Amn","Sol","Mal","Ist","Vex","Ohm","Lo","Ber","Jah"];
 
 var GEMS = ["Chipped Topaz","Chipped Amethyst","Flawless Amethyst","Flawless Ruby",
@@ -240,7 +240,7 @@ var ONE_H   = ["sword1","axe1","mace1","flail1","dagger","wand","scythe1"];
 var TWO_H   = ["sword2","axe2","mace2","scythe2","polearm","qstaff","glaive","staff","bow","xbow"];
 var OFFHAND = ["shield","focus","totem"];
 
-/* Scara de rune: out <- qty x in (+ gem) */
+/* Rune ladder: out <- qty x in (+ gem) */
 var LADDER = [
   {out:"Eth",  in:"Tir",  qty:3},
   {out:"Ith",  in:"Eth",  qty:3},
@@ -262,60 +262,60 @@ var LADDER = [
 var RWS = [
   {n:"Lore", r:["Ort","Sol"], b:["helm"], bl:"Helm", e:""},
   {n:"Stealth", r:["Tal","Eth"], b:["chest"], bl:"Chest Armor",
-   e:"Max Life, Attack Speed, Movement Speed, Damage Reduction, Resource Generation, Impairment Reduction. Fara efect unic."},
+   e:"Max Life, Attack Speed, Movement Speed, Damage Reduction, Resource Generation, Impairment Reduction. No unique effect."},
   {n:"Prudence", r:["Mal","Tir"], b:["chest"], bl:"Chest Armor", e:""},
   {n:"Rain", r:["Ort","Mal","Ith"], b:["chest"], bl:"Chest Armor", e:""},
   {n:"Enigma", r:["Jah","Ith","Ber"], b:["chest"], bl:"Chest Armor",
-   e:"+2 All Skills, +45% Movement Speed, +40% Max Life, Damage Reduction, Armor. Evade devine Teleport (33 Primary Resource)."},
+   e:"+2 All Skills, +45% Movement Speed, +40% Max Life, Damage Reduction, Armor. Evade becomes Teleport, costing 33 Primary Resource."},
   {n:"Pattern", r:["Tal","Ort","Thul"], b:["dagger"], bl:"Dagger", e:""},
   {n:"Leaf", r:["Tir","Ral"], b:["staff"], bl:"Staff", e:""},
   {n:"Zephyr", r:["Ort","Eth"], b:["bow","xbow"], bl:"Bow, Crossbow", e:""},
   {n:"Holy Thunder", r:["Eth","Ral","Ort","Tal"], b:["mace1","flail1"], bl:"1H Mace, 1H Flail",
-   e:"Crackling Energy: inamicii loviti iau 2.000-3.500% damage sporit Holy/Fire/Lightning/Physical, 3 sec."},
+   e:"Crackling Energy: enemies hit take 2,000-3,500% increased Holy, Fire, Lightning and Physical damage for 3 seconds."},
   {n:"Grief", r:["Eth","Tir","Lo","Mal","Ral"], b:["axe1","sword1"], bl:"1H Axe, 1H Sword",
-   e:"750-1.000 Weapon Damage, Deadly Strike, Attack Speed."},
+   e:"750-1,000 Weapon Damage, Deadly Strike, Attack Speed."},
   {n:"King's Grace", r:["Amn","Ral","Thul"], b:["mace1","flail1","sword1"], bl:"1H Mace, Flail, Sword", e:""},
   {n:"Ancient's Pledge", r:["Ral","Ort","Tal"], b:OFFHAND, bl:"Totem, Shield, Focus", e:""},
   {n:"Strength", r:["Amn","Tir"], b:ONE_H.concat(["focus","totem"]), bl:"1H Weapon, Totem, Focus", e:""},
   {n:"Call to Arms", r:["Amn","Ral","Mal","Ist","Ohm"], b:ONE_H.concat(["focus","totem"]),
    bl:"1H Weapon, Totem, Focus", e:""},
   {n:"Spirit", r:["Tal","Thul","Ort","Amn"], b:ONE_H.concat(OFFHAND), bl:"1H Weapon, Totem, Shield, Focus",
-   e:"+5 All Skills, Attack Speed, Max Resource, 50% Impairment Reduction. Pe arma +50% Damage; pe shield Max Life."},
+   e:"+5 All Skills, Attack Speed, Max Resource, 50% Impairment Reduction. On a weapon it adds +50% Damage; on a shield, Max Life instead."},
   {n:"Phoenix", r:["Vex","Vex","Lo","Jah"], b:ONE_H.concat(OFFHAND), bl:"1H Weapon, Totem, Shield, Focus",
-   e:"Varianta pe shield schimba Fire Lucky Hit pe Fire Resistance + Damage Reduction."},
+   e:"The shield variant swaps the Fire Lucky Hit for Fire Resistance and Damage Reduction."},
   {n:"Insight", r:["Ral","Tir","Tal","Sol"], b:["bow","xbow","glaive","polearm","qstaff","staff","scythe2"],
    bl:"Bow, Crossbow, Glaive, Polearm, Quarterstaff, Staff, 2H Scythe", e:""},
   {n:"Edge", r:["Tir","Tal","Amn"], b:TWO_H, bl:"2H Weapon", e:""},
   {n:"Infinity", r:["Ber","Mal","Ber","Ist"], b:TWO_H, bl:"2H Weapon",
-   e:"Inamicii apropiati sunt Vulnerable si iau +62,5% damage. Sansa de Chain Lightning la kill. Pasiva Cyclone Armor (Druid)."}
+   e:"Close enemies are Vulnerable and take 62.5% more damage. Chance to unleash Chain Lightning on kill. Grants the Druid's Cyclone Armor passive."}
 ];
 
 var OTHER = [
-  {n:"Upgrade direct la Mythic",
+  {n:"Upgrade directly to Mythic",
    m:"1x Ancestral Unique (900 Item Power) + 5x Resplendent Spark",
-   o:"Pastreaza toate statele si Greater Affixes. Primeste tag Crafted. Doar 1 mythic cube-crafted echipat simultan. Nu merge pe Unmodifiable."},
+   o:"Keeps every stat and Greater Affix. Result gets the Crafted tag. Only one Cube-Crafted Mythic equipped at a time. Does not work on Unmodifiable items."},
   {n:"Affix Value Reroll",
-   m:"Echipament Rare+ sau Talisman + 1x Attuned Primordial Dust + 100x Raw Primordial Dust (+ Infused Horadric Resin, optional)",
-   o:"Rerolleaza valorile afixelor de baza. Pastreaza GA, Enchanted, Tempers, Transfigurations."},
+   m:"Rare+ equipment or Talisman + 1x Attuned Primordial Dust + 100x Raw Primordial Dust (+ Infused Horadric Resin, optional)",
+   o:"Rerolls base affix values. Keeps Greater Affixes, Enchanted affixes, Tempers and Transfigurations."},
   {n:"Horadric Reroll",
    m:"Talisman (Legendary/Set/Unique/Mythic) + 1x Pure Primordial Dust + 100x Raw Dust + 100x Infused Horadric Resin", o:""},
   {n:"Unique Power Reroll",
    m:"1x Ancestral Unique + 1x Attuned Primordial Dust + 100x Raw Dust", o:""},
   {n:"Chaotic / Focused Reroll",
-   m:"1x Magic/Rare/Legendary + 1x Refined Primordial Dust + 15x Raw Dust (+ Tuning Prism, optional)", o:""},
+   m:"1x Magic/Rare/Legendary item + 1x Refined Primordial Dust + 15x Raw Dust (+ Tuning Prism, optional)", o:""},
   {n:"Remove Affix",
-   m:"1x Magic sau Rare + 1x Refined Primordial Dust + 15x Raw Dust (+ Tuning Prism, optional)", o:""},
+   m:"1x Magic or Rare item + 1x Refined Primordial Dust + 15x Raw Dust (+ Tuning Prism, optional)", o:""},
   {n:"Reroll Set Charm",
    m:"1x Set Charm + 25x Raw Dust + 50x Infused Horadric Resin", o:""},
   {n:"Craft Unique Charm",
    m:"1x Ancestral Unique + 3x Unique Charms + 1x Enhanced Primordial Dust + 50x Raw Dust + 100x Infused Horadric Resin",
-   o:"Unele Unique-uri sunt excluse."},
-  {n:"Recycle Uniques", m:"3x acelasi Unique sau Unique Charm", o:"Produce alt item de acel tip."},
+   o:"Some Uniques are excluded."},
+  {n:"Recycle Uniques", m:"3x the same Unique or Unique Charm", o:"Produces a new item of that type."},
   {n:"Legendary Rune",
-   m:"1x runa specifica (ex. Prid -> Bac, Teb -> Igni) + 5x Rare Runes + 5x Legendary Runes", o:""},
+   m:"1x specific rune (e.g. Prid -> Bac, Teb -> Igni) + 5x Rare Runes + 5x Legendary Runes", o:""},
   {n:"Wirt's Lucky Coin",
    m:"1x Splinter of Terror + 1x Splinter of Destruction + 1x Splinter of Hatred",
-   o:"Pas pe drumul spre Hellfire Torch. Separat de runeworduri."}
+   o:"A step on the path to the Hellfire Torch. Separate from runewords."}
 ];
 
 /* ---------------- HELPERS ---------------- */
@@ -332,7 +332,7 @@ function esc(s){
 }
 function sortedKey(arr){ return arr.slice().sort().join("|"); }
 
-/* ---------------- TABURI ---------------- */
+/* ---------------- TABS ---------------- */
 $$(".tab").forEach(function(t){
   t.onclick = function(){
     $$(".tab").forEach(function(x){ x.classList.toggle("on", x===t); });
@@ -340,7 +340,7 @@ $$(".tab").forEach(function(t){
   };
 });
 
-/* ---------------- CUB ---------------- */
+/* ---------------- CUBE ---------------- */
 var SLOTS = 12;
 var cube = [];
 
@@ -360,7 +360,7 @@ function renderPalette(){
 }
 
 function add(kind, name){
-  if (cube.length >= SLOTS) { flash("Cubul e plin.", "err"); return; }
+  if (cube.length >= SLOTS) { flash("The cube is full.", "err"); return; }
   cube.push({kind:kind, name:name});
   renderCube();
 }
@@ -397,7 +397,7 @@ function result(title, meta, eff){
 
 $("#btn-clear").onclick = function(){
   cube = []; curRW = null; markRec(null); hideBasePick(); renderCube();
-  flash("Cub golit.");
+  flash("Cube cleared.");
 };
 
 function transmute(){
@@ -408,49 +408,49 @@ function transmute(){
     else bases.push(i.name);
   });
 
-  if (!cube.length) return flash("Cubul e gol.", "err");
+  if (!cube.length) return flash("The cube is empty.", "err");
 
-  /* runeword: rune + o baza alba */
+  /* runeword: runes + one white base */
   if (bases.length===1 && runes.length>=2) {
-    if (gems.length) return flash("Scoate gemurile. Runewordul cere doar rune + baza alba.", "err");
+    if (gems.length) return flash("Remove the gems. A runeword takes runes plus a white base only.", "err");
     var key = sortedKey(runes), rw = null;
     for (var i=0;i<RWS.length;i++) if (sortedKey(RWS[i].r)===key) { rw = RWS[i]; break; }
-    if (!rw) return flash("Combinatia de rune nu e un runeword cunoscut: " + runes.join(" + "), "err");
+    if (!rw) return flash("That rune combination is not a known runeword: " + runes.join(" + "), "err");
     if (rw.b.indexOf(bases[0]) === -1)
-      return flash("Runele dau " + rw.n + ", dar baza " + baseName(bases[0]) +
-                   " nu e valida. Valide: " + rw.bl + ".", "err");
-    return result(rw.n, rw.r.join(" + ") + "  pe  " + baseName(bases[0]),
-                  rw.e || "Efect inca nedocumentat public.");
+      return flash("Those runes make " + rw.n + ", but " + baseName(bases[0]) +
+                   " is not a valid base. Valid: " + rw.bl + ".", "err");
+    return result(rw.n, rw.r.join(" + ") + "  on  " + baseName(bases[0]),
+                  rw.e || "Effect not documented publicly yet.");
   }
-  if (bases.length > 1) return flash("Doar o baza alba in cub.", "err");
+  if (bases.length > 1) return flash("Only one white base in the cube.", "err");
 
-  /* upgrade de runa */
+  /* rune upgrade */
   if (bases.length===0 && runes.length) {
     var uniq = runes.filter(function(v,i,a){ return a.indexOf(v)===i; });
     if (uniq.length > 1)
-      return flash("Pentru upgrade toate runele trebuie identice. Ai: " + uniq.join(", "), "err");
+      return flash("An upgrade needs identical runes. You have: " + uniq.join(", "), "err");
     var r = uniq[0], rec = null;
     for (var j=0;j<LADDER.length;j++) if (LADDER[j].in === r) { rec = LADDER[j]; break; }
-    if (!rec) return flash(r + " nu are reteta de upgrade (Jah e varful scarii).", "err");
+    if (!rec) return flash(r + " has no upgrade recipe. Jah is the top of the ladder.", "err");
     if (runes.length !== rec.qty)
-      return flash(rec.out + " cere " + rec.qty + "x " + r +
-                   (rec.gem ? " + 1x " + rec.gem : "") + ". Ai " + runes.length + "x " + r + ".", "err");
+      return flash(rec.out + " needs " + rec.qty + "x " + r +
+                   (rec.gem ? " + 1x " + rec.gem : "") + ". You have " + runes.length + "x " + r + ".", "err");
     if (rec.gem) {
       if (gems.length !== 1 || gems[0] !== rec.gem)
-        return flash("Gem gresit sau lipsa: " + rec.out + " cere " + rec.qty + "x " + r +
+        return flash("Wrong or missing gem: " + rec.out + " needs " + rec.qty + "x " + r +
                      " + 1x " + rec.gem + ".", "err");
     } else if (gems.length) {
-      return flash(rec.out + " nu cere gem. Scoate gemul.", "err");
+      return flash(rec.out + " takes no gem. Remove it.", "err");
     }
-    return result("Runa " + rec.out,
+    return result(rec.out + " Rune",
       rec.qty + "x " + r + (rec.gem ? " + 1x " + rec.gem : "") + "  →  1x " + rec.out, "");
   }
 
-  flash("Combinatie nerecunoscuta. Rune identice = upgrade. Rune + baza alba = runeword.", "err");
+  flash("Unrecognised combination. Identical runes make an upgrade; runes plus a white base make a runeword.", "err");
 }
 $("#btn-transmute").onclick = transmute;
 
-/* ---------------- LISTA DE RETETE (sub cub) ---------------- */
+/* ---------------- RECIPE LIST (below the cube) ---------------- */
 var curRW = null;
 
 function ladderLabel(l){
@@ -467,14 +467,14 @@ function renderRecipes(q){
   }).map(function(l){
     var i = LADDER.indexOf(l);
     return '<button class="rec" data-t="lad" data-i="'+i+'">' +
-      '<div class="nm">Runa '+l.out+'</div>' +
+      '<div class="nm">'+l.out+' Rune</div>' +
       '<div class="ing">'+ladderLabel(l)+'</div>' +
-      '<div class="bs">Fara baza. Doar rune'+(l.gem ? " + gem" : "")+'.</div>' +
+      '<div class="bs">No base item. Runes'+(l.gem ? " and a gem" : "")+' only.</div>' +
       '</button>';
   }).join("");
 
   $("#rec-ladder").innerHTML = lad ||
-    '<div class="sm">Nimic gasit. (Mal nu are reteta &mdash; se dropeaza.)</div>';
+    '<div class="sm">Nothing found. (Mal has no recipe &mdash; it only drops.)</div>';
 
   var rw = RWS.filter(function(w){
     if (!q) return true;
@@ -484,11 +484,11 @@ function renderRecipes(q){
     return '<button class="rec" data-t="rw" data-i="'+i+'">' +
       '<div class="nm">'+w.n+'</div>' +
       '<div class="ing">'+w.r.join(" + ")+'</div>' +
-      '<div class="bs">Iteme valide: '+w.bl+'</div>' +
+      '<div class="bs">Valid items: '+w.bl+'</div>' +
       '</button>';
   }).join("");
 
-  $("#rec-rw").innerHTML = rw || '<div class="sm">Nimic gasit.</div>';
+  $("#rec-rw").innerHTML = rw || '<div class="sm">Nothing found.</div>';
 
   $$(".rec").forEach(function(b){
     b.onclick = function(){ loadRecipe(b.dataset.t, +b.dataset.i, b); };
@@ -504,11 +504,12 @@ function hideBasePick(){ $("#base-pick").hidden = true; }
 function showBasePick(rw){
   var p = $("#base-pick");
   p.hidden = false;
-  p.innerHTML = '<label for="bsel">Item de baz&#259;</label>' +
+  p.innerHTML = '<label for="bsel">Base item</label>' +
     '<select id="bsel">' + rw.b.map(function(id){
       return '<option value="'+id+'">'+baseName(id)+'</option>';
     }).join("") + '</select>' +
-    '<span class="sm">' + rw.b.length + ' iteme valide pentru ' + rw.n + '</span>';
+    '<span class="sm">' + rw.b.length + ' valid item' + (rw.b.length === 1 ? "" : "s") +
+    ' for ' + rw.n + '</span>';
   $("#bsel").value = cube.filter(function(i){ return i.kind === "base"; })[0].name;
   $("#bsel").onchange = function(){
     cube = cube.filter(function(i){ return i.kind !== "base"; });
@@ -538,7 +539,7 @@ function loadRecipe(type, i, el){
 
 $("#rec-search").oninput = function(e){ renderRecipes(e.target.value); markRec(null); };
 
-/* ---------------- TABEL RUNEWORDURI ---------------- */
+/* ---------------- RUNEWORD TABLE ---------------- */
 function renderRW(q){
   q = (q || "").toLowerCase().trim();
   var rows = RWS.filter(function(w){
@@ -549,16 +550,16 @@ function renderRW(q){
     return '<tr><td class="rw">'+w.n+'</td><td class="rn">'+w.r.join(" + ")+'</td>'+
            '<td class="sm">'+w.bl+'</td><td class="sm">'+(w.e || "—")+'</td></tr>';
   }).join("");
-  $("#rw-table tbody").innerHTML = rows || '<tr><td colspan="4" class="sm">Nimic gasit.</td></tr>';
+  $("#rw-table tbody").innerHTML = rows || '<tr><td colspan="4" class="sm">Nothing found.</td></tr>';
 }
 $("#rw-search").oninput = function(e){ renderRW(e.target.value); };
 
-/* ---------------- SCARA ---------------- */
+/* ---------------- LADDER VIEW ---------------- */
 function renderLadder(){
   $("#ladder").innerHTML = LADDER.map(function(l){
     if (l.gap) {
       return '<div class="step gap"><b>Mal</b><span class="arrow">&mdash;</span>' +
-             'nu se poate crafta. Scara se rupe aici: Sol nu urca la Mal.</div>';
+             'cannot be crafted. The ladder breaks here: Sol does not climb to Mal.</div>';
     }
     return '<div class="step"><span class="rn">'+l.qty+'x '+l.in+'</span>' +
       (l.gem ? '<span class="arrow">+</span><span style="color:var(--gem)">1x '+l.gem+'</span>' : "") +
@@ -584,10 +585,10 @@ function renderCost(){
   var t = $("#target").value, c = costOf(t);
   var rk = Object.keys(c.runes)[0];
   if (rk === t) {
-    $("#cost").innerHTML = '<div class="note">'+t+' nu are reteta de craft &mdash; trebuie dropata.</div>';
+    $("#cost").innerHTML = '<div class="note">'+t+' has no craft recipe &mdash; it has to drop.</div>';
     return;
   }
-  var h = '<div class="cost"><div><b>'+c.runes[rk]+'</b><span>x '+rk+' (runa de baza)</span></div>';
+  var h = '<div class="cost"><div><b>'+c.runes[rk]+'</b><span>x '+rk+' (base rune)</span></div>';
   for (var g in c.gems) h += '<div><b>'+c.gems[g]+'</b><span>x '+g+'</span></div>';
   h += '</div>';
   $("#cost").innerHTML = h;
@@ -598,7 +599,7 @@ $("#target").innerHTML = LADDER.filter(function(l){ return !l.gap; })
 $("#target").value = "Jah";
 $("#target").onchange = renderCost;
 
-/* ---------------- TABEL ALTE RETETE ---------------- */
+/* ---------------- OTHER RECIPES TABLE ---------------- */
 $("#other-table tbody").innerHTML = OTHER.map(function(o){
   return '<tr><td class="rw">'+o.n+'</td><td class="sm">'+o.m+'</td>'+
          '<td class="sm">'+(o.o || "—")+'</td></tr>';

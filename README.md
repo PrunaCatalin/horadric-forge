@@ -1,20 +1,23 @@
 # Horadric Forge
 
-Simulator Horadric Cube pentru Diablo 4 Season 15 (Hell's Legacy).
+A Horadric Cube simulator for Diablo 4 Season 15 (Hell's Legacy).
 
-Site static, un singur fisier: `index.html`. Fara build, fara dependinte.
+**Live:** https://prunacatalin.github.io/horadric-forge/
 
-## Ce face
+Single static page, no build step and no dependencies.
 
-- **Cubul** — pune rune / gemuri / baze albe in cub, apasa Transmute, iti spune ce iese sau de ce nu merge.
-- **Runeworduri** — toate cele 19 retete, cu bazele valide, cu search.
-- **Scara de rune** — scara completa Tir -> Jah plus calculator de cost pana la runa de baza.
-- **Alte retete** — mythic upgrade, rerolls, charms, Wirt's Lucky Coin.
+## What it does
 
-## Local
+- **Cube** — drop runes, gems and white base items into the cube, hit Transmute, and it tells you what comes out or exactly why it doesn't work.
+- **Recipes** — a clickable list under the cube. Each row shows the runes, the gems and the valid base items; clicking one fills the cube and transmutes it. Runewords also get a dropdown listing every valid base.
+- **Runewords** — all 19 recipes with their valid bases, searchable.
+- **Rune Ladder** — the full Tir to Jah chain, including the Sol to Mal gap, plus a cost calculator down to the base rune.
+- **Other Recipes** — mythic upgrade, rerolls, charms, Wirt's Lucky Coin.
 
-Deschide `index.html` in browser. Atat.
+## Running it locally
 
-## Date
+Open `index.html` in a browser. That's it.
 
-Retetele sunt verificate pe Maxroll si d4guides (S15, patch 3.2.x). Fan-made, neafiliat cu Blizzard Entertainment.
+## Data
+
+Recipe data is cross-checked against Maxroll and d4guides for patch 3.2.x. Fan-made, not affiliated with Blizzard Entertainment.
