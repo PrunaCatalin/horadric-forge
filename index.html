@@ -97,6 +97,12 @@ input[type=search]:focus,select:focus{outline:none;border-color:var(--accent)}
   border-radius:8px;padding:9px 12px;font-size:14px;flex-wrap:wrap}
 .step .arrow{color:var(--dim)}
 .step.gap{border-color:#6b322a;background:#1a0f0d;color:#d99b91}
+.bdg{font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:600;
+     padding:2px 6px;border-radius:4px;border:1px solid;white-space:nowrap}
+.bdg.rit{color:#7fb77f;border-color:#3d5c3d;background:#15200f}
+.bdg.inv{color:#c98fd0;border-color:#5a3a5e;background:#1c1020}
+.chip.rune.rit{border-left-color:#5c8c5c}
+.chip.rune.inv{border-left-color:#9e6aa4}
 .cost{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:12px}
 .cost div{background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
 .cost b{display:block;font-size:20px;font-family:Cinzel,serif;color:var(--accent-2)}
@@ -210,6 +216,22 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
     <div class="ladder" id="ladder"></div>
   </main>
 </div>
+
+<div class="panel" style="margin-top:16px">
+  <h2>Rune types</h2>
+  <p class="sm">
+    Every rune is either <span class="bdg rit">Ritual</span> or
+    <span class="bdg inv">Invocation</span>. Ritual runes generate Offering when their
+    condition is met; Invocation runes spend Offering to fire an effect. A socketed pair
+    needs one of each &mdash; two Ritual runes or two Invocation runes do nothing together.
+    This is separate from the cube: in the cube a rune is only crafting material and its
+    type is irrelevant.
+  </p>
+  <div style="overflow-x:auto"><table id="type-table">
+    <thead><tr><th>Rune</th><th>Type</th><th>Offering</th><th>Effect</th><th>Added</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+</div>
 </section>
 
 <section class="view" id="v-myth">
@@ -298,6 +320,36 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
 <script>
 /* ---------------- DATA ---------------- */
 var RUNES = ["Tir","Eth","Ith","Tal","Ral","Ort","Thul","Amn","Sol","Mal","Ist","Vex","Ohm","Lo","Ber","Jah"];
+
+/* Rune type. Ritual runes generate Offering, Invocation runes spend it.
+   A runeword socket pair is one Ritual + one Invocation.
+   The 12 marked new:true arrived with Season 15. Thul, Vex, Ohm and Jah
+   already existed in Vessel of Hatred, so their Offering costs are known
+   but their effect text is not repeated here. */
+var RTYPE = {
+  "Tal":  {t:"rit", new:true,  e:"Generates Offering when you deal Damage over Time."},
+  "Eth":  {t:"rit", new:true,  e:"Generates Offering after 5s in combat without spending Primary Resource."},
+  "Ort":  {t:"rit", new:true,  e:"Generates Offering when you deal Non-Physical Direct Damage."},
+  "Amn":  {t:"rit", new:true,  e:"Generates Offering when you deal Thorns Damage."},
+  "Mal":  {t:"rit", new:true,  e:"Generates Offering when you invoke your Prime Evil Power."},
+  "Tir":  {t:"inv", new:true,  e:"Temporarily grants extra Primary Resource on Kill. Stacks."},
+  "Ith":  {t:"inv", new:true,  e:"Temporarily increases Weapon Damage. Stacks."},
+  "Ral":  {t:"inv", new:true,  e:"Temporarily increases Gold Find."},
+  "Sol":  {t:"inv", new:true,  e:"Temporarily grants Damage Reduction."},
+  "Ist":  {t:"inv", new:true,  e:"Spends Offering to invoke your Prime Evil Power."},
+  "Lo":   {t:"inv", new:true,  e:"Temporarily increases Deadly Strike Chance."},
+  "Ber":  {t:"inv", new:true,  e:"Gives your next several Skills an increased chance of Crushing Blow."},
+  "Thul": {t:"inv", new:false, o:300, e:"Vessel of Hatred rune. Check the in-game tooltip."},
+  "Vex":  {t:"inv", new:false, o:100, e:"Vessel of Hatred rune. Check the in-game tooltip. Some guides list 150 Offering (?)."},
+  "Jah":  {t:"inv", new:false, o:400, e:"Vessel of Hatred rune. Check the in-game tooltip."},
+  "Ohm":  {t:"inv", new:false, o:600, e:"Vessel of Hatred rune. Check the in-game tooltip."}
+};
+function rtName(k){ return k === "rit" ? "Ritual" : "Invocation"; }
+function rtBadge(r){
+  var d = RTYPE[r];
+  if (!d) return "";
+  return '<span class="bdg '+d.t+'">'+rtName(d.t)+'</span>';
+}
 
 var GEMS = ["Chipped Topaz","Chipped Amethyst","Flawless Amethyst","Flawless Ruby",
             "Flawless Emerald","Flawless Diamond","Grand Topaz","Grand Sapphire"];
@@ -512,7 +564,9 @@ var cube = [];
 
 function renderPalette(){
   $("#p-runes").innerHTML = RUNES.map(function(r){
-    return '<button class="chip rune" data-k="rune" data-n="'+r+'">'+r+'</button>';
+    var d = RTYPE[r] || {t:"", e:""};
+    return '<button class="chip rune '+d.t+'" data-k="rune" data-n="'+r+'" ' +
+           'title="'+r+' &mdash; '+rtName(d.t)+'. '+d.e+'">'+r+'</button>';
   }).join("");
   $("#p-gems").innerHTML = GEMS.map(function(g){
     return '<button class="chip gem" data-k="gem" data-n="'+g+'">'+g+'</button>';
@@ -774,12 +828,13 @@ $("#legacy-table tbody").innerHTML = LEGACY.map(function(m){
 function renderLadder(){
   $("#ladder").innerHTML = LADDER.map(function(l){
     if (l.gap) {
-      return '<div class="step gap"><b>Mal</b><span class="arrow">&mdash;</span>' +
+      return '<div class="step gap"><b>Mal</b>'+rtBadge("Mal")+'<span class="arrow">&mdash;</span>' +
              'cannot be crafted. The ladder breaks here: Sol does not climb to Mal.</div>';
     }
     return '<div class="step"><span class="rn">'+l.qty+'x '+l.in+'</span>' +
       (l.gem ? '<span class="arrow">+</span><span style="color:var(--gem)">1x '+l.gem+'</span>' : "") +
-      '<span class="arrow">→</span><b style="color:var(--accent-2)">'+l.out+'</b></div>';
+      '<span class="arrow">→</span><b style="color:var(--accent-2)">'+l.out+'</b>' +
+      rtBadge(l.out) + '</div>';
   }).join("");
 }
 
@@ -821,8 +876,22 @@ $("#other-table tbody").innerHTML = OTHER.map(function(o){
          '<td class="sm">'+(o.o || "—")+'</td></tr>';
 }).join("");
 
+/* ---------------- RUNE TYPE TABLE ---------------- */
+function renderTypes(){
+  var order = RUNES.filter(function(r){ return (RTYPE[r]||{}).t === "rit"; })
+       .concat(RUNES.filter(function(r){ return (RTYPE[r]||{}).t === "inv"; }));
+  $("#type-table tbody").innerHTML = order.map(function(r){
+    var d = RTYPE[r];
+    return '<tr><td class="rn"><b>'+r+'</b></td>' +
+      '<td>'+rtBadge(r)+'</td>' +
+      '<td class="sm">'+(d.o ? d.o : "—")+'</td>' +
+      '<td class="sm">'+d.e+'</td>' +
+      '<td class="sm">'+(d.new ? "Season 15" : "Vessel of Hatred")+'</td></tr>';
+  }).join("");
+}
+
 /* ---------------- INIT ---------------- */
-renderPalette(); renderCube(); renderRecipes(""); renderRW(); renderMyth(); renderLadder(); renderCost();
+renderTypes(); renderPalette(); renderCube(); renderRecipes(""); renderRW(); renderMyth(); renderLadder(); renderCost();
 </script>
 </body>
 </html>
