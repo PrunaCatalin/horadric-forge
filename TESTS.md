@@ -287,6 +287,37 @@ A fresh roll means there is no inheritance and trial 1 was a 13% fluke.
 
 Two more runs of this shape would put it beyond argument. One is enough to act on.
 
+### Test F — which cube recipes accept a sigil at all
+
+Costs nothing and has never been checked. Every guide says sigil affixes cannot be
+targeted, but no guide says anyone tried feeding a sigil to the cube's affix recipes.
+
+The cube's recipe list sits to the right of the grid, and the **Transmutation (n)** counter
+is a live validity check: (1) when the loaded items match the selected recipe, (0) when
+they do not. So put **one Nightmare Sigil** in the grid and click down the whole list,
+reading the counter each time. Nothing is consumed.
+
+The recipes visible in the panel during these trials:
+
+- Add Affix
+- Remove Affix
+- Focused Reroll
+- Chaotic Reroll
+- Affix Value Reroll
+- Item Power Reroll
+- Transfigure Item
+- Upgrade to Legendary
+- Craft Unique
+- Amalgamation (known to accept sigils)
+
+**Add Affix** reading (1) with a sigil loaded would answer the whole question outright —
+Materials Reserve could be added to any sigil. **Focused Reroll** reading (1) would mean
+the affix is targetable. Both are long shots; those recipes are built for gear. But the
+check is free, takes a minute, and nobody appears to have published the result.
+
+If every one of them reads (0) except Amalgamation, that is the answer, properly
+established rather than assumed: the affix cannot be made, only rolled for.
+
 ### Still untested after this
 
 Whether **both** affix slots can carry at once, which needs five sigils sharing both
