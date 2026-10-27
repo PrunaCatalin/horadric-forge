@@ -322,10 +322,23 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
     Materials Reserve themselves, confirmed on Blizzard's own forums alongside Gem Reserve, Gold
     Reserve and Strongroom. So the cheap route is the Occultist: craft a Nightmare Sigil for 60 Sigil
     Powder and 4,000 gold, check the affixes, salvage it for 20 Powder back if it is wrong, repeat.
-    Whether the cube's 5-sigil Amalgamation carries the inputs' affixes onto the Escalation Sigil is
-    undocumented &mdash; no source states it either way. The cube shows a recipe preview, so load five
-    sigils that all have Materials Reserve and read the preview before confirming. That answers it in
-    the only way that counts.
+    <br><br>
+    <b>What the cube does to a sigil's affixes.</b> No guide states it, so this was tested in game.
+    Five Nightmare Sigils went in, from five different dungeons across three regions. Every one of
+    them carried Horadric Strongroom; their second affixes were all different. Out came a sigil for
+    a sixth dungeon, in a fourth region, carrying Horadric Strongroom and one affix that had been on
+    none of the inputs.
+    <br><br>
+    Read that as: the dungeon is rolled fresh, the slot the inputs disagreed on is rolled fresh, and
+    <b>the affix every input shared carried through</b>. If that holds, five sigils that all carry
+    Materials Reserve produce an Escalation Sigil with Materials Reserve, and the affix stops being a
+    lottery. One trial is a hint, not proof &mdash; a given affix lands by luck roughly one time in
+    seven. The confirming run is in TESTS.md in the repository.
+    <br><br>
+    Two things the cube will not do for you: there is no preview of the output's affixes, so you only
+    learn them after committing. But the recipe panel's <b>Transmutation (n)</b> counter is a live
+    validity check &mdash; it reads (1) when your items match a recipe and (0) when they do not, with
+    the Transmute button greyed out to match. Load first, read the counter, then commit.
     <br><br>
     The control is inside the dungeon, not on the sigil. Each time you finish a floor you choose the
     next portal, and every portal shows its own affixes &mdash; take the one carrying the Reserve you
@@ -496,8 +509,8 @@ var OTHER = [
    m:"1x Splinter of Terror + 1x Splinter of Destruction + 1x Splinter of Hatred",
    o:"A step on the path to the Hellfire Torch. Separate from runewords."},
   {n:"Amalgamation &mdash; Nightmare Sigils",
-   m:"5x Nightmare Sigil &mdash; whether they must be the same dungeon is disputed (?)",
-   o:"Produces an Escalation Sigil. Several sources now confirm the output; one says the five sigils need not share a dungeon, which contradicts the rest. Read the cube's recipe preview before confirming. The Escalation Sigil's own affixes roll at random and cannot be rerolled &mdash; see the Escalation Sigils note below the table."},
+   m:"5x Nightmare Sigil &mdash; any dungeons, they do not have to match",
+   o:"Produces an Escalation Sigil. Tested in game: five sigils from five dungeons across three regions were accepted. The output's dungeon is rolled fresh and matches none of the inputs. For what happens to the affixes, see the Escalation Sigils note below the table."},
   {n:"Amalgamation &mdash; Tributes",
    m:"5x the same Tribute (Ingenuity, Refinement, Armaments, Heritage, Harmony, the Horadrim, and their Lesser/Greater versions)",
    o:"10 recipes. Each gives a random item of the next tier up, e.g. 5 Rare Tributes into 1 Legendary Tribute."},

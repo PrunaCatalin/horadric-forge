@@ -77,11 +77,61 @@ Photos 2 and 3 are the ones that matter. The tooltip must be legible.
 
 ## Results
 
-Nothing recorded yet.
+### Trial 1 — 2026-10-27 — tests A, B and a partial C in one run
 
-| # | Test | Inputs | Preview said | Output affixes | Date |
-|---|---|---|---|---|---|
-| | | | | | |
+Five Nightmare Sigils, five different dungeons, three different regions:
+
+| # | Dungeon | Region | Affix 1 | Affix 2 |
+|---|---|---|---|---|
+| 1 | Tormented Forest | Skovos | Horadric Strongroom | Volcanic |
+| 2 | Submerged Ruins | Skovos | Horadric Strongroom | Avengers |
+| 3 | Crusaders' Cathedral | Kehjistan | Horadric Strongroom | Deathly Shadows |
+| 4 | Hierophant Pyre | Nahantu | Horadric Strongroom | Suppressor Elites |
+| 5 | Putrescent Larder | Nahantu | Horadric Strongroom | Volcanic |
+
+Output: **Belfry Zakara Escalation Sigil**, Hawezar — Horadric Strongroom + Veiled Elites.
+
+**Test A: mixed dungeons are accepted.** Five dungeons across three regions, and the
+cube matched the recipe. The `(?)` on the site is resolved: the outlier guide was right,
+the five sigils do not have to share a dungeon.
+
+The recipe panel's counter proves it rather than the button colour alone. With the five
+loaded it read **Transmutation (1)** and TRANSMUTE was lit; with one item left in the
+cube afterwards it read **Transmutation (0)** and TRANSMUTE was greyed out. The counter
+is a live validity check — load a recipe and read it before spending anything.
+
+**Test B: no affix preview.** Nothing in the cube names the output's affixes ahead of
+the transmute. You only learn them after committing.
+
+**The pattern, and how far it actually goes.** Three things happened at once:
+
+- The affix on **all five** inputs, Horadric Strongroom, is on the output.
+- The second affix differed across inputs (Volcanic twice, Avengers, Deathly Shadows,
+  Suppressor Elites). The output's second affix is Veiled Elites, which was on **none**
+  of them.
+- The output dungeon, Belfry Zakara in Hawezar, matches no input and sits in a region
+  none of the inputs came from.
+
+So: dungeon is rolled fresh, the slot the inputs disagreed on is rolled fresh, and the
+slot they all agreed on carried through. That reads as a rule: **a shared affix carries,
+everything else rerolls.**
+
+One trial. A specific affix lands on a sigil by luck maybe one time in seven, so a
+coincidence here is unlikely but nowhere near ruled out. This is a hint with a mechanism
+behind it, not a confirmed rule.
+
+### Next: trial 2 settles it
+
+Five Nightmare Sigils that all carry **Materials Reserve**, any dungeons.
+
+If the rule holds, the output is an Escalation Sigil with Materials Reserve, on demand.
+That is the original question answered, and it turns the affix from a lottery into
+something you can build toward.
+
+If the output comes back without it, Strongroom in trial 1 was luck and there is no
+inheritance.
+
+Either way the result is worth having, and the test costs five sigils.
 
 ## What we already know
 
