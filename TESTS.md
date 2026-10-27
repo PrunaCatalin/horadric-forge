@@ -234,6 +234,32 @@ With the baseline in hand:
 - Output affixes over-representing what the inputs carried → input weight is real, and
   stacking five of the same affix is the best play available even without a guarantee.
 
+**The pool, and a correction.** Maxroll lists the full affix pool and states that a sigil
+always rolls **exactly one positive and one negative affix** — never two from the same
+pool. Every sigil tooltip in these trials matches that. Positives number 22 counting
+Dungeon Delve, which appears in game but is missing from Maxroll's list; negatives, 20.
+
+That corrects a figure used earlier in this file and in conversation. "Roughly one in
+seven" assumed two slots drawn from one pool of about fifteen. The real structure gives a
+specific positive affix about **4.5%** under flat weights, not 13%. The coincidence that
+could explain trial 1 is a good deal less likely than it was being credited as.
+
+**But the weights are not flat, and the data proves it.** Dungeon Delve appeared on three
+sigils out of five in trial 2, a batch assembled for Materials Reserve rather than for
+Dungeon Delve. Under a flat 22-affix pool, three or more hits in five is around one in a
+thousand. It is not a flat pool. The weight hypothesis is correct at least this far: some
+affixes are much more common than others.
+
+Which cuts both ways for trial 1. The 4.5% figure is a floor, not the real number. If
+Horadric Strongroom is one of the heavy affixes, its odds of landing by luck are far
+higher than 4.5% and trial 1 proves correspondingly less. If it is a rare one, trial 1 is
+strong. The pool list cannot answer that — only a tally can.
+
+**So the stash tally is now the whole game, and it got easier.** Only the positive affix
+matters, and there is exactly one per sigil. Twenty sigils give twenty clean draws against
+a 22-affix pool. That is coarse, but it is more than enough to see which affixes are the
+heavy ones and roughly where Strongroom and Materials Reserve sit.
+
 **One cheap question first.** In trial 1, were those five sigils picked *because* they all
 had Horadric Strongroom, or did they simply all happen to have it? If they were not
 selected for it, Strongroom is a very common affix, its appearance on the output needs no

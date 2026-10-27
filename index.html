@@ -364,6 +364,41 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
     Skull, Topaz) &mdash; those last ones are what you match to a Soul Splinter when farming splinters.
   </div>
 </div>
+
+<div class="panel" style="margin-top:16px">
+  <h2>Every dungeon affix</h2>
+  <p class="sm">
+    A Nightmare Sigil always rolls <b>exactly one positive and one negative affix</b> &mdash; one from
+    each pool, never two from the same one. That is confirmed by Maxroll and visible on every sigil
+    tooltip. So the odds of landing a particular Reserve are set by the size of the positive pool
+    alone, not by the whole list.
+  </p>
+  <p class="sm">
+    <b>The pools are not flat.</b> If all 22 positives were equally likely, a given one would roll
+    about 4.5% of the time. Dungeon Delve turned up on three sigils out of five in one of our test
+    batches, which a flat pool makes roughly a 1-in-1000 event. Some affixes are plainly far more
+    common than others. Nobody publishes the weights, so the only way to measure them is to tally
+    your own stash.
+  </p>
+  <div class="grid">
+    <main class="panel" style="background:var(--panel-2)">
+      <h2>Positive &mdash; 22</h2>
+      <div style="overflow-x:auto"><table id="pos-table">
+        <thead><tr><th>Affix</th><th>Group</th></tr></thead><tbody></tbody>
+      </table></div>
+    </main>
+    <main class="panel" style="background:var(--panel-2)">
+      <h2>Negative &mdash; 20</h2>
+      <div style="overflow-x:auto"><table id="neg-table">
+        <thead><tr><th>Affix</th><th>Group</th></tr></thead><tbody></tbody>
+      </table></div>
+    </main>
+  </div>
+  <p class="sm">
+    Dungeon Delve is on this list because it is on sigils in game. Maxroll's pool omits it and lists
+    Equipment Delve instead, so one of the two is either missing or renamed. Trust the tooltip.
+  </p>
+</div>
 </section>
 
 <footer>
@@ -930,6 +965,46 @@ $("#other-table tbody").innerHTML = OTHER.map(function(o){
          '<td class="sm">'+(o.o || "—")+'</td></tr>';
 }).join("");
 
+/* ---------------- SIGIL AFFIX POOLS ---------------- */
+/* A sigil rolls exactly one from each pool. Weights are not published
+   and are clearly not flat, so these are names only, no odds. */
+var SIG_POS = [
+  ["Artillery Shrines","Shrines"], ["Blast Wave Shrines","Shrines"],
+  ["Channeling Shrines","Shrines"], ["Lethal Shrines","Shrines"],
+  ["Protection Shrines","Shrines"],
+  ["Horadric Materials Reserve","Reserve"], ["Horadric Gem Reserve","Reserve"],
+  ["Horadric Gold Reserve","Reserve"],      ["Horadric Obols Reserve","Reserve"],
+  ["Horadric Amethyst Reserve","Reserve"],  ["Horadric Diamond Reserve","Reserve"],
+  ["Horadric Emerald Reserve","Reserve"],   ["Horadric Ruby Reserve","Reserve"],
+  ["Horadric Sapphire Reserve","Reserve"],  ["Horadric Skull Reserve","Reserve"],
+  ["Horadric Topaz Reserve","Reserve"],
+  ["Horadric Strongroom","Special"], ["Forgotten Wisdom","Special"],
+  ["Vile Splendor","Special"],       ["Treasure Breach","Special"],
+  ["Equipment Delve","Special"],     ["Dungeon Delve","Special (?)"]
+];
+var SIG_NEG = [
+  ["Chilling Wind Elites","Elite buff"], ["Explosive Elites","Elite buff"],
+  ["Hellbound Elites","Elite buff"],     ["Poison Enchanted Elites","Elite buff"],
+  ["Shock Lance Elites","Elite buff"],   ["Summoner Elites","Elite buff"],
+  ["Suppressor Elites","Elite buff"],    ["Vampiric Elites","Elite buff"],
+  ["Waller Elites","Elite buff"],
+  ["Avengers","Monster buff"],   ["Berserkers","Monster buff"],
+  ["Blood Blisters","Monster buff"], ["Deathly Shadows","Monster buff"],
+  ["Hunters","Monster buff"],    ["Lesser Aegis","Monster buff"],
+  ["Profane Aegis","Monster buff"],
+  ["Dark Omen","Special"], ["Drifting Shades","Special"],
+  ["Stormbane's Wrath","Special"], ["Volcanic","Special"]
+];
+function renderAffixPools(){
+  function rows(list){
+    return list.map(function(a){
+      return '<tr><td class="rw">'+a[0]+'</td><td class="sm">'+a[1]+'</td></tr>';
+    }).join("");
+  }
+  $("#pos-table tbody").innerHTML = rows(SIG_POS);
+  $("#neg-table tbody").innerHTML = rows(SIG_NEG);
+}
+
 /* ---------------- RUNE TYPE TABLE ---------------- */
 function renderTypes(){
   var order = RUNES.filter(function(r){ return (RTYPE[r]||{}).t === "rit"; })
@@ -945,7 +1020,7 @@ function renderTypes(){
 }
 
 /* ---------------- INIT ---------------- */
-renderTypes(); renderPalette(); renderCube(); renderRecipes(""); renderRW(); renderMyth(); renderLadder(); renderCost();
+renderTypes(); renderAffixPools(); renderPalette(); renderCube(); renderRecipes(""); renderRW(); renderMyth(); renderLadder(); renderCost();
 </script>
 </body>
 </html>
