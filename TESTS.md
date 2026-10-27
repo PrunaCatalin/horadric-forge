@@ -147,12 +147,67 @@ what makes this worth spending five sigils on:
 So: **Dungeon Delve on the output favours majority carry. Its absence favours unanimous
 carry**, and is the second independent result pointing at the rule from trial 1.
 
-**Materials Reserve is the control.** It is on exactly one input. Under either rule it
-should not appear. If it does, both rules are wrong and a single input can seed an affix,
-which would make the whole thing far cheaper than we think — one good sigil plus four
-spares. Worth watching precisely because it is the least likely outcome.
+**Materials Reserve is the control, and the position probe.** It is on exactly one input
+— and that sigil was deliberately placed in **slot 1**, to test a third rule neither of
+the above covers: that the cube reads the first item in the grid and ignores the rest.
+
+Under unanimous or majority carry, Materials Reserve should not appear at all. Under
+first-slot carry, it should, and so should Shock Lance Elites, the other affix on that
+same sigil.
+
+So the output separates three rules cleanly:
+
+| Output shows | Rule |
+|---|---|
+| Neither Dungeon Delve nor Materials Reserve | unanimous carry |
+| Dungeon Delve | majority carry |
+| Materials Reserve, likely with Shock Lance Elites | first slot wins |
+
+First slot winning would be the cheapest outcome by far: one good sigil plus four
+spares, and the affix becomes targetable immediately.
 
 The dungeon should again be unrelated to all five inputs. Trial 1 saw that once.
+
+**Result.** Output: **Defiled Catacomb Escalation Sigil**, Fractured Peaks —
+Vile Splendor + Avengers.
+
+- No Dungeon Delve. **Majority carry is dead.** Three of five was not enough to move it.
+- No Materials Reserve, no Shock Lance Elites. **First slot wins is dead.** Position in
+  the grid does nothing; neither affix from the slot-1 sigil came through.
+- Vile Splendor was on no input at all.
+- Avengers was on exactly one input, Basaltic Ascent.
+- Dungeon unrelated to every input again. Fractured Peaks was one input's region, but
+  Defiled Catacomb was not among them.
+
+The prediction written beforehand said neither Dungeon Delve nor Materials Reserve would
+appear, and neither did.
+
+**What this does not establish.** Trial 2 cannot tell unanimous carry apart from no carry
+at all. With nothing shared across all five, both rules predict the same thing: two fresh
+affixes. That is what came out. So the standing evidence for unanimous carry is still
+trial 1 alone, n=1.
+
+And Avengers is a warning about exactly that. It sat on one input out of five and landed
+on the output anyway — a coincidence of precisely the kind that could have produced
+Horadric Strongroom in trial 1. Seeing it happen here, in a trial where nothing could
+have carried, is a reason to trust trial 1 less rather than more.
+
+| Rule | Status |
+|---|---|
+| Majority carry | ruled out, trial 2 |
+| First slot wins | ruled out, trial 2 |
+| Unanimous carry | alive, supported by trial 1 only |
+| No carry at all | alive, and trial 1 is explainable as luck |
+
+### Trial 3 — the one that actually decides it
+
+Repeat trial 1's design: five sigils that **all** carry one affix, Materials Reserve for
+preference. That is the only shape that separates the two surviving rules.
+
+Carrying affix on the output means unanimous carry is real and the affix is targetable.
+A fresh roll means there is no inheritance and trial 1 was a 13% fluke.
+
+Two more runs of this shape would put it beyond argument. One is enough to act on.
 
 ### Still untested after this
 
