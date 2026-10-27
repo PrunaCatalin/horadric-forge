@@ -120,18 +120,44 @@ One trial. A specific affix lands on a sigil by luck maybe one time in seven, so
 coincidence here is unlikely but nowhere near ruled out. This is a hint with a mechanism
 behind it, not a confirmed rule.
 
-### Next: trial 2 settles it
+### Trial 2 — 2026-10-27 — inputs loaded, predictions registered, not yet transmuted
 
-Five Nightmare Sigils that all carry **Materials Reserve**, any dungeons.
+Not the test that was planned. **No affix is on all five**, so this cannot confirm the
+unanimous-carry rule. It discriminates between two rules instead, which trial 1 could
+not do, and it doubles as the control for Materials Reserve.
 
-If the rule holds, the output is an Escalation Sigil with Materials Reserve, on demand.
-That is the original question answered, and it turns the affix from a lottery into
-something you can build toward.
+| # | Dungeon | Region | Affix 1 | Affix 2 |
+|---|---|---|---|---|
+| 1 | Akkhan's Grasp | Hawezar | Materials Reserve | Shock Lance Elites |
+| 2 | Bewitched Grotto | Skovos | Forgotten Wisdom | Poison Enchanted Elites |
+| 3 | Sarat's Lair | Scosglen | Dungeon Delve | Deathly Shadows |
+| 4 | Hallowed Ossuary | Fractured Peaks | Dungeon Delve | Shock Lance Elites |
+| 5 | Basaltic Ascent | Skovos | Dungeon Delve | Avengers |
 
-If the output comes back without it, Strongroom in trial 1 was luck and there is no
-inheritance.
+Tallies: Dungeon Delve 3/5, Shock Lance Elites 2/5, Materials Reserve 1/5,
+everything else 1/5. Five dungeons, five regions. Transmutation (1), recipe valid.
 
-Either way the result is worth having, and the test costs five sigils.
+**Predictions, written before the transmute.** The two rules disagree here, which is
+what makes this worth spending five sigils on:
+
+- **Unanimous carry** (what trial 1 suggested): nothing is on all five, so nothing
+  carries. The output rolls two fresh affixes. Dungeon Delve would appear only by luck.
+- **Majority carry**: Dungeon Delve sits on three of five and should appear on the output.
+
+So: **Dungeon Delve on the output favours majority carry. Its absence favours unanimous
+carry**, and is the second independent result pointing at the rule from trial 1.
+
+**Materials Reserve is the control.** It is on exactly one input. Under either rule it
+should not appear. If it does, both rules are wrong and a single input can seed an affix,
+which would make the whole thing far cheaper than we think — one good sigil plus four
+spares. Worth watching precisely because it is the least likely outcome.
+
+The dungeon should again be unrelated to all five inputs. Trial 1 saw that once.
+
+### Still untested after this
+
+Whether **both** affix slots can carry at once, which needs five sigils sharing both
+affixes. Rare to assemble, so it waits.
 
 ## What we already know
 
