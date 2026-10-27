@@ -232,6 +232,31 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
     <tbody></tbody>
   </table></div>
 </div>
+
+<div class="panel" style="margin-top:16px">
+  <h2>Where runes drop</h2>
+  <p class="sm">
+    Runewords are never found &mdash; you craft them here. What drops is runes, and a few of them can
+    be targeted. Put one point into <b>Lair of Runes</b>, the first node on the left branch of the
+    Lair Boss War Plan tree; without it these bosses are not a rune source at all. Even with it the
+    drops are chance, not guaranteed, and Blizzard publishes no rates &mdash; the table below is
+    community testing.
+  </p>
+  <div style="overflow-x:auto"><table id="boss-table">
+    <thead><tr><th>Boss</th><th>Rarest rune</th><th>Key</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <div class="note" style="margin-top:12px">
+    <b>The shortcut worth knowing.</b> Jah has a boss. Climbing to it instead costs 64 Mal, and Mal
+    is the one rune on the ladder with no recipe and no boss &mdash; it only drops. So for anything
+    needing Jah, farm the Beast in the Ice rather than the ladder. The same does not apply to Ber or
+    Mal, which no boss targets.
+    <br><br>
+    For raw Mal and the other high runes, Season 15's <b>Waking Nightmares</b> is the activity guides
+    name most often, with Baal and Kurast Undercity also mentioned. Figures like "one Ber every 60 to
+    90 minutes" come from single guides and are anecdotal (?).
+  </div>
+</div>
 </section>
 
 <section class="view" id="v-myth">
@@ -965,6 +990,27 @@ $("#other-table tbody").innerHTML = OTHER.map(function(o){
          '<td class="sm">'+(o.o || "—")+'</td></tr>';
 }).join("");
 
+/* Lair bosses with a targeted rune, needs the Lair of Runes War Plan node.
+   Only the rarest tier is listed; the lower tiers are Vessel of Hatred runes. */
+var BOSSES = [
+  ["The Beast in the Ice", "Jah",  "Lair Key"],
+  ["The Butcher",          "Vex",  "Greater Lair Key"],
+  ["Varshan",              "Tam",  "Lair Key"],
+  ["Duriel",               "Tam",  "Greater Lair Key"],
+  ["Grigoire",             "Bac",  "Lair Key"],
+  ["Lord Zir",             "Eom",  "Lair Key"],
+  ["Urivar",               "Yul",  "Lair Key"],
+  ["Andariel",             "Igni", "Greater Lair Key"],
+  ["Harbinger of Hatred",  "Yom",  "Greater Lair Key"]
+];
+function renderBosses(){
+  $("#boss-table tbody").innerHTML = BOSSES.map(function(b){
+    return '<tr><td class="rw">'+b[0]+'</td>' +
+      '<td class="rn"><b>'+b[1]+'</b> '+rtBadge(b[1])+'</td>' +
+      '<td class="sm">'+b[2]+'</td></tr>';
+  }).join("");
+}
+
 /* ---------------- SIGIL AFFIX POOLS ---------------- */
 /* A sigil rolls exactly one from each pool. Weights are not published
    and are clearly not flat, so these are names only, no odds. */
@@ -1020,7 +1066,7 @@ function renderTypes(){
 }
 
 /* ---------------- INIT ---------------- */
-renderTypes(); renderAffixPools(); renderPalette(); renderCube(); renderRecipes(""); renderRW(); renderMyth(); renderLadder(); renderCost();
+renderTypes(); renderBosses(); renderAffixPools(); renderPalette(); renderCube(); renderRecipes(""); renderRW(); renderMyth(); renderLadder(); renderCost();
 </script>
 </body>
 </html>
