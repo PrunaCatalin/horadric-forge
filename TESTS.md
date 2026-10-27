@@ -199,6 +199,58 @@ have carried, is a reason to trust trial 1 less rather than more.
 | Unanimous carry | alive, supported by trial 1 only |
 | No carry at all | alive, and trial 1 is explainable as luck |
 
+### The weight hypothesis
+
+Proposed after trial 2: affixes are not carried or not carried, they are **weighted**, and
+the output rolls from a weighted pool. It splits into two versions that the data so far
+cannot tell apart, and both survive everything above.
+
+**Intrinsic weight.** Every affix has its own base frequency and the inputs change
+nothing. Common affixes show up often on outputs because they show up often everywhere.
+This is "no carry" wearing better clothes.
+
+**Input weight.** Each input that carries an affix raises that affix's weight in the
+output roll. Five of five is a strong push, three of five a weaker one, one of five
+barely anything. Nothing is guaranteed at any count.
+
+Input weight explains every observation without strain: Strongroom at 5/5 landed,
+Dungeon Delve at 3/5 missed, Avengers at 1/5 landed anyway, Materials Reserve at 1/5
+missed. So does intrinsic weight, if those affixes happen to be common ones.
+
+**This is why the hypothesis matters: it changes what an experiment is.** A rule that
+either carries or does not can be settled by one well-shaped run. A weighted rule cannot
+be settled at all by a single run — any single outcome is consistent with any weight
+short of zero or certainty. It has to be counted over many runs, and both versions only
+separate once there is a baseline to compare against.
+
+**The baseline is free.** It needs no transmutes: go through the sigil stash and tally how
+often each affix appears across every sigil in there, say twenty or more. That gives the
+natural frequency of each affix.
+
+With the baseline in hand:
+
+- Output affixes matching the natural frequencies, regardless of what went in → intrinsic
+  weight, and there is no inheritance.
+- Output affixes over-representing what the inputs carried → input weight is real, and
+  stacking five of the same affix is the best play available even without a guarantee.
+
+**One cheap question first.** In trial 1, were those five sigils picked *because* they all
+had Horadric Strongroom, or did they simply all happen to have it? If they were not
+selected for it, Strongroom is a very common affix, its appearance on the output needs no
+explanation beyond base rate, and the evidence for any inheritance drops to nothing.
+
+What the two outputs so far look like against their inputs:
+
+| Output affix | Inputs carrying it |
+|---|---|
+| Horadric Strongroom (trial 1) | 5 of 5 |
+| Veiled Elites (trial 1) | 0 of 5 |
+| Vile Splendor (trial 2) | 0 of 5 |
+| Avengers (trial 2) | 1 of 5 |
+
+Two of four output affixes were on no input at all. Whatever the rule is, a large random
+component is in it.
+
 ### Trial 3 — the one that actually decides it
 
 Repeat trial 1's design: five sigils that **all** carry one affix, Materials Reserve for
