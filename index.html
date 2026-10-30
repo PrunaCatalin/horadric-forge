@@ -549,6 +549,43 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
 </div>
 
 <div class="panel" style="margin-top:16px">
+  <h2>Soul Splinters &mdash; the seasonal socketables</h2>
+  <p class="sm">
+    Season 15's gems. <b>Eight families, four tiers each &mdash; 32 items in all.</b> Every one pairs a
+    strong benefit with a real burden, and each grants a resistance on top. They go in <b>jewelry
+    only</b>: amulet, ring 1, ring 2. Wearing the Legacy Unique <b>Leoric's Crown</b> makes the helm
+    count as jewelry too, adding two more sockets and amplifying what sits in them by 75&ndash;100%
+    &mdash; five Splinters at once. A Splinter can only be socketed once.
+  </p>
+  <div class="note">
+    <b>The tiers climb through the cube, five into one.</b>
+    <br><br>
+    <span class="rw">Lesser</span> (Magic) &rarr; <span class="rw">Splinter</span> (Rare) &rarr;
+    <span class="rw">Greater</span> (Legendary) &rarr; <span class="rw">Abyssal</span> (Unique)
+    <br><br>
+    Each step <b>amalgamates five identical Splinters</b> of the same family and tier into one of the
+    next. So the whole climb costs <b>125 Lesser</b> for a single Abyssal, and there is no shortcut and
+    no drop of an Abyssal directly &mdash; they are built. Note the word trap: <i>Splinter</i> is both
+    the family prefix and the name of the second tier.
+    <br><br>
+    <b>Farming:</b> they drop in <b>Escalation Nightmare Dungeons</b>, and the dungeon's cache affix
+    steers which family you get &mdash; <b>Sapphire for Lies</b>. One source has it as the Sapphire
+    <i>Cache</i> affix, another as the Sapphire <i>Reserve</i> bonus, without saying whether those are
+    the same thing. With Sapphire picked on every floor, the Horadric Chests and the dungeon boss are
+    reported as very likely to drop it. <b>No source names the cache affix for the other seven
+    families</b>, and none names a guaranteed source for any of them (?).
+  </div>
+  <div style="overflow-x:auto;margin-top:14px"><table id="splinter-table">
+    <thead><tr><th>Family</th><th>Benefit</th><th>Burden</th><th>Resistance</th></tr></thead><tbody></tbody>
+  </table></div>
+  <p class="sm">
+    Values run <b>Lesser / Splinter / Greater / Abyssal</b>. Figures come from the client data for
+    patch 3.2.1. Two families break the shared resistance line: Black Soulstone gives All Stats and
+    Hellfire gives All Elements.
+  </p>
+</div>
+
+<div class="panel" style="margin-top:16px">
   <h2>Greater Affixes &mdash; the stars on an item</h2>
   <p class="sm">
     The small stars beside an item's name count its <b>Greater Affixes</b>, and each star marks one
@@ -1297,6 +1334,37 @@ var SIG_NEG = [
   ["Dark Omen","Special"], ["Drifting Shades","Special"],
   ["Stormbane's Wrath","Special"], ["Volcanic","Special"]
 ];
+var SPLINTERS = [
+  ["Anguish", "Andariel", "Attack Speed and Critical Strike Chance", "5 / 10 / 15 / 20%",
+   "+30% Primary Resource cost", "Fire", "250 / 1,750 / 2,625 / 4,375"],
+  ["Sin", "Azmodan", "Maximum Life", "20 / 30 / 40 / 50%",
+   "&minus;30% Maximum Primary Resource", "Lightning", "250 / 1,750 / 2,625 / 4,375"],
+  ["Lies", "Belial", "Gold and Crafting Material Drop Rate, plus 25% bonus Experience", "40 / 60 / 80 / 100%",
+   "Always Weakened and Vulnerable", "Cold", "250 / 1,750 / 2,625 / 4,375"],
+  ["Black Soulstone", "", "Damage per absorbed soul, up to 200 stacks", "1 / 1.5 / 2 / 2.5%",
+   "+1% damage taken per soul", "All Stats", "7 / 20 / 30 / 50"],
+  ["Pain", "Duriel", "Damage Reduction", "10 / 15 / 20 / 25%",
+   "&minus;30% Movement Speed", "Poison", "250 / 1,750 / 2,625 / 4,375"],
+  ["Mother", "Lilith", "Unhindered; enemies you touch become Vulnerable", "&mdash;",
+   "Stunned for 4s after 100 / 150 / 200 / 250 touches", "Physical", "250 / 1,750 / 2,625 / 4,375"],
+  ["Hellfire", "Na'Krul", "Increased damage, multiplicative", "20 / 30 / 40 / 50%[x]",
+   "&minus;100% Critical Strike Chance", "All Elements", "35 / 250 / 375 / 625"],
+  ["Damnation", "Skarn", "After killing an elite pack: +25% Experience", "for 10 / 15 / 20 / 25s",
+   "+1 Monster Level. One source reads it as Monster Power instead (?)", "Shadow", "250 / 1,750 / 2,625 / 4,375"]
+];
+
+function renderSplinters(){
+  $("#splinter-table tbody").innerHTML = SPLINTERS.map(function(x){
+    var demon = x[1] ? ' <span class="sm">(' + x[1] + ')</span>' : "";
+    return '<tr>' +
+      '<td class="rw"><b>' + x[0] + '</b>' + demon + '</td>' +
+      '<td class="sm">' + x[2] + '<br><b>' + x[3] + '</b></td>' +
+      '<td class="sm">' + x[4] + '</td>' +
+      '<td class="sm">' + x[5] + '<br>' + x[6] + '</td>' +
+      '</tr>';
+  }).join("");
+}
+
 function renderAffixPools(){
   function rows(list){
     return list.map(function(a){
@@ -1322,7 +1390,7 @@ function renderTypes(){
 }
 
 /* ---------------- INIT ---------------- */
-renderTypes(); renderBosses(); renderAffixPools(); renderPalette(); renderCube(); renderRecipes(""); renderRW(); renderMyth(); renderLadder(); renderCost();
+renderTypes(); renderBosses(); renderAffixPools(); renderSplinters(); renderPalette(); renderCube(); renderRecipes(""); renderRW(); renderMyth(); renderLadder(); renderCost();
 </script>
 </body>
 </html>
