@@ -1018,7 +1018,7 @@ function renderPalette(){
   $("#p-bases").innerHTML = BASES.map(function(b){
     return '<button class="chip base" data-k="base" data-n="'+b.id+'">'+b.n+'</button>';
   }).join("");
-  $$(".chip").forEach(function(c){
+  $$("#p-runes .chip, #p-gems .chip, #p-bases .chip").forEach(function(c){
     c.onclick = function(){ add(c.dataset.k, c.dataset.n); };
   });
 }
