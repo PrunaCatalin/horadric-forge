@@ -139,6 +139,7 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
   <button class="tab" data-v="rw">Runewords</button>
   <button class="tab" data-v="ladder">Rune Ladder</button>
   <button class="tab" data-v="myth">Mythics</button>
+  <button class="tab" data-v="loot">Boss Loot</button>
   <button class="tab" data-v="other">Other Recipes</button>
 </div>
 
@@ -476,6 +477,50 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
     <thead><tr><th>Item</th><th>Slot</th><th>Classes</th><th>Unique effect</th></tr></thead>
     <tbody></tbody>
   </table></div>
+</div>
+</section>
+
+<section class="view" id="v-loot">
+<div class="panel">
+  <h2>Boss loot tables</h2>
+  <p class="sm">
+    Every Unique and Mythic Unique in the Season 15 boss tables &mdash; <b>296 items across twelve
+    bosses</b>. Three pools are mixed in here and they behave differently:
+    <b>dedicated</b> drops belong to one boss's own table, <b>shared</b> items sit in the General
+    Unique Pool and can come from any Lair Boss, and <b>legacy</b> items come from elsewhere entirely.
+    An item can appear under more than one boss.
+  </p>
+  <p class="sm">
+    <b>Belial is the wildcard.</b> After killing him you choose any boss's loot chest, which gives you
+    a shot at that boss's dedicated drops without farming its key.
+  </p>
+  <div class="chips" id="loot-bosses" style="margin-top:10px"></div>
+  <div class="chips" id="loot-classes" style="margin-top:8px"></div>
+  <div style="margin-top:10px">
+    <input id="loot-q" type="text" placeholder="Filter by item name&hellip;"
+           style="width:100%;max-width:420px;padding:8px 10px;border-radius:8px;
+                  border:1px solid var(--line);background:var(--panel-2);color:inherit;font:inherit">
+  </div>
+  <div id="loot-info" class="note" style="margin-top:12px"></div>
+  <p class="sm" id="loot-count" style="margin-top:10px"></p>
+  <div style="overflow-x:auto">
+    <table id="loot-table">
+      <thead><tr><th>Item</th><th>Type</th><th>Class</th><th>Boss</th><th>Pool</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="note" style="margin-top:14px">
+    <b>Where this disagrees with the rune table above.</b> This source lists <b>Lord Zir</b> as
+    costing a <b>Greater Lair Key</b>, while the boss rune table on the Rune Ladder page has him on a
+    plain Lair Key. The two cannot both be right and I have not resolved it &mdash; check the key cost
+    on his altar in game before you spend materials (?).
+    <br><br>
+    <b>Three Mythics are unassigned.</b> Shattered Vow, Ahavarion and Nesekem have no boss listed,
+    which the source states outright rather than omitting. Everything else maps one Iconic Mythic to
+    one boss.
+    <br><br>
+    Figures are for Ancestral items at 900 Item Power. Source: cliptis.com, Season 15 boss loot table.
+  </div>
 </div>
 </section>
 
@@ -1365,6 +1410,403 @@ function renderSplinters(){
   }).join("");
 }
 
+var LOOT = [
+["Crown of Lucion","Helm","Any class","Astaroth","dedicated","unique"],
+["The Third Blade","1h Sword","barbarian","Astaroth","dedicated","unique"],
+["Hooves of the Mountain God","Boots","barbarian","Astaroth","dedicated","unique"],
+["Battle Trance","Amulet","barbarian","Astaroth","dedicated","unique"],
+["Dirge of Airidah","Ring","druid","Astaroth","dedicated","unique"],
+["Mad Wolf's Glee","Chest Armor","druid","Astaroth","dedicated","unique"],
+["Wildheart Hunger","Boots","druid","Astaroth","dedicated","unique"],
+["Blood Moon Breeches","Pants","necromancer","Astaroth","dedicated","unique"],
+["Bloodless Scream","2h Scythe","necromancer","Astaroth","dedicated","unique"],
+["Ring of the Sacrilegious Soul","Ring","necromancer","Astaroth","dedicated","unique"],
+["Asheara's Khanjar","1h Dagger","rogue","Astaroth","dedicated","unique"],
+["Eyes in the Dark","Pants","rogue","Astaroth","dedicated","unique"],
+["Gladiator's Triumph","Gloves","rogue","Astaroth","dedicated","unique"],
+["Esu's Heirloom","Boots","sorcerer","Astaroth","dedicated","unique"],
+["Fractured Winterglass","Amulet","sorcerer","Astaroth","dedicated","unique"],
+["Hail of Verglas","Helm","sorcerer","Astaroth","dedicated","unique"],
+["Echo of Kwatli","Amulet","spiritborn","Astaroth","dedicated","unique"],
+["Ring of the Midnight Sun","Ring","spiritborn","Astaroth","dedicated","unique"],
+["Griswold's Opus","1h Sword","paladin","Astaroth","dedicated","unique"],
+["Herald of Zakarum","Shield","paladin","Astaroth","dedicated","unique"],
+["Hecaton Chasm","Ring","warlock","Astaroth","dedicated","unique"],
+["Litany of Sable","1h Dagger","warlock","Astaroth","dedicated","unique"],
+["Bindings of Attrition","Pants","warlock","Astaroth","dedicated","unique"],
+["Footfalls of the Waning World","Boots","warlock","Astaroth","dedicated","unique"],
+["Rod of Kepeleke","Quarterstaff","spiritborn","Astaroth","dedicated","unique"],
+["Azurewrath","1h Sword","barbarian druid rogue sorcerer necromancer paladin warlock","Bartuc","dedicated","unique"],
+["Arreat's Bearing","Pants","barbarian","Bartuc","dedicated","unique"],
+["The Open Eye of Gorgorra","Amulet","barbarian","Bartuc","dedicated","unique"],
+["Tuskhelm of Joritz the Mighty","Helm","barbarian","Bartuc","dedicated","unique"],
+["Earthbreaker","Ring","druid","Bartuc","dedicated","unique"],
+["Khamsin Steppewalkers","Boots","druid","Bartuc","dedicated","unique"],
+["Mjölnic Ryng","Ring","druid","Bartuc","dedicated","unique"],
+["Gravewalker's Hand","Gloves","necromancer","Bartuc","dedicated","unique"],
+["Omen of Pain","Ring","necromancer","Bartuc","dedicated","unique"],
+["The Unmaker","Helm","necromancer","Bartuc","dedicated","unique"],
+["Grasp of Shadow","Gloves","rogue","Bartuc","dedicated","unique"],
+["Misericorde","1h Sword","rogue","Bartuc","dedicated","unique"],
+["Word of Hakan","Amulet","rogue","Bartuc","dedicated","unique"],
+["Axial Conduit","Pants","sorcerer","Bartuc","dedicated","unique"],
+["Ophidian Iris","Amulet","sorcerer","Bartuc","dedicated","unique"],
+["Raiment of the Infinite","Chest Armor","sorcerer","Bartuc","dedicated","unique"],
+["Harmony of Ebewaka","Helm","spiritborn","Bartuc","dedicated","unique"],
+["Arcadia","Pants","paladin","Bartuc","dedicated","unique"],
+["Sundered Night","2h Axe","paladin","Bartuc","dedicated","unique"],
+["Eye of Baal","Focus","warlock","Bartuc","dedicated","unique"],
+["Sashes of the Wretched","Pants","warlock","Bartuc","dedicated","unique"],
+["The Hemat Stone","Amulet","warlock","Bartuc","dedicated","unique"],
+["Hand of Apotheosis","Gloves","warlock","Bartuc","dedicated","unique"],
+["Loyalty's Mantle","Helm","spiritborn","Bartuc","dedicated","unique"],
+["The Butcher's Cleaver","1h Axe","barbarian druid necromancer paladin warlock","Butcher","dedicated","unique"],
+["Chainscourged Mail","Pants","barbarian","Butcher","dedicated","unique"],
+["Ramaladni's Magnum Opus","1h Sword","barbarian","Butcher","dedicated","unique"],
+["Fury of the Wilds","Ring","druid","Butcher","dedicated","unique"],
+["Heart of Azgar","Chest Armor","druid","Butcher","dedicated","unique"],
+["Purified Lightbringer","2h Mace","druid","Butcher","dedicated","unique"],
+["Mace of King Leoric","1h Mace","necromancer","Butcher","dedicated","unique"],
+["Red Blessing","Amulet","necromancer","Butcher","dedicated","unique"],
+["Vengeful Sinew","Chest Armor","necromancer","Butcher","dedicated","unique"],
+["Cowl of the Nameless","Helm","rogue","Butcher","dedicated","unique"],
+["Scoundrel's Kiss","Ring","rogue","Butcher","dedicated","unique"],
+["Emberfury","Amulet","sorcerer","Butcher","dedicated","unique"],
+["Shanar's Resonance","Focus","sorcerer","Butcher","dedicated","unique"],
+["Staff of Zerae","Staff","sorcerer","Butcher","dedicated","unique"],
+["Hesha e Kesungi","Gloves","spiritborn","Butcher","dedicated","unique"],
+["Path of the Emissary","Boots","spiritborn","Butcher","dedicated","unique"],
+["March of the Stalwart Soul","Boots","paladin","Butcher","dedicated","unique"],
+["Red Sermon","2h Sword","paladin","Butcher","dedicated","unique"],
+["Hellbrand Signet","Ring","warlock","Butcher","dedicated","unique"],
+["Lurid Pact","Ring","warlock","Butcher","dedicated","unique"],
+["Moloch's Beating Flame","Amulet","warlock","Butcher","dedicated","unique"],
+["Nails of the Gore-Crowned","Helm","warlock","Butcher","dedicated","unique"],
+["Fist of the Iron Rose","Gloves","rogue","Butcher","dedicated","unique"],
+["Ring of Red Furor","Ring","barbarian","Butcher","dedicated","unique"],
+["Razorplate","Chest Armor","Any class","Duriel","dedicated","unique"],
+["Dark Stalker's Medallion","Amulet","barbarian","Duriel","dedicated","unique"],
+["Rage of Harrogath","Chest Armor","barbarian","Duriel","dedicated","unique"],
+["Fractured Runestone","Ring","druid","Duriel","dedicated","unique"],
+["Greenwalker's Oath","Boots","druid","Duriel","dedicated","unique"],
+["Mark of the Old Wolf","Ring","druid","Duriel","dedicated","unique"],
+["Path of Trag'Oul","Boots","necromancer","Duriel","dedicated","unique"],
+["The Undercrown","Helm","necromancer","Duriel","dedicated","unique"],
+["Bands of Ichorous Rose","Gloves","rogue","Duriel","dedicated","unique"],
+["Condemnation","1h Dagger","rogue","Duriel","dedicated","unique"],
+["Sea Lord's Fine Gloves","Gloves","rogue","Duriel","dedicated","unique"],
+["Blue Rose","Ring","sorcerer","Duriel","dedicated","unique"],
+["Galvanic Azurite","Ring","sorcerer","Duriel","dedicated","unique"],
+["Staff of Endless Rage","Staff","sorcerer","Duriel","dedicated","unique"],
+["Widow's Web","Amulet","spiritborn","Duriel","dedicated","unique"],
+["Supplication","1h Sword","paladin","Duriel","dedicated","unique"],
+["Ward of the White Dove","Shield","paladin","Duriel","dedicated","unique"],
+["Scourge of Duriel","Flail","warlock","Duriel","dedicated","unique"],
+["Rictus of Terror","Helm","warlock","Duriel","dedicated","unique"],
+["Gauntlets of Sheol","Gloves","warlock","Duriel","dedicated","unique"],
+["Mutilator Plate","Chest Armor","necromancer","Duriel","dedicated","unique"],
+["Sabre of Tsasgal","1h Sword","barbarian","Duriel","dedicated","unique"],
+["Wushe Nak Pa","Glaive","spiritborn","Duriel","dedicated","unique"],
+["Godslayer Crown","Helm","Any class","Andariel","dedicated","unique"],
+["Emblem of Staalbreak","Amulet","barbarian","Andariel","dedicated","unique"],
+["Ancients' Oath","2h Axe","barbarian","Andariel","dedicated","unique"],
+["Hellhammer","2h Mace","barbarian","Andariel","dedicated","unique"],
+["Greenwalker's Signet","Ring","druid","Andariel","dedicated","unique"],
+["Insatiable Fury","Chest Armor","druid","Andariel","dedicated","unique"],
+["Storm's Companion","Pants","druid","Andariel","dedicated","unique"],
+["Ebonpiercer","Amulet","necromancer","Andariel","dedicated","unique"],
+["Lidless Wall","Shield","necromancer","Andariel","dedicated","unique"],
+["Kessime's Legacy","Pants","necromancer","Andariel","dedicated","unique"],
+["Assassin's Stride","Boots","rogue","Andariel","dedicated","unique"],
+["Beastfall Boots","Boots","rogue","Andariel","dedicated","unique"],
+["Deathmask of Nirmitruq","Helm","rogue","Andariel","dedicated","unique"],
+["Drognan's Anguish","Ring","sorcerer","Andariel","dedicated","unique"],
+["Esadora's Overflowing Cameo","Amulet","sorcerer","Andariel","dedicated","unique"],
+["Orsivane","1h Mace","sorcerer","Andariel","dedicated","unique"],
+["Craze of the Dead God","Gloves","spiritborn","Andariel","dedicated","unique"],
+["Argent Veil","Ring","paladin","Andariel","dedicated","unique"],
+["Dawnfire","Gloves","paladin","Andariel","dedicated","unique"],
+["Scepter of the Three","2h Mace","warlock","Andariel","dedicated","unique"],
+["Night Terror","Amulet","warlock","Andariel","dedicated","unique"],
+["Anathema of the Primes","2h Sword","warlock","Andariel","dedicated","unique"],
+["Jacinth Shell","Chest Armor","spiritborn","Andariel","dedicated","unique"],
+["Shard of Verathiel","1h Sword","barbarian druid rogue sorcerer necromancer paladin warlock","Echo of Varshan","dedicated","unique"],
+["Overkill","2h Mace","barbarian","Echo of Varshan","dedicated","unique"],
+["100,000 Steps","Boots","barbarian","Echo of Varshan","dedicated","unique"],
+["Autumnal Crown","Helm","druid","Echo of Varshan","dedicated","unique"],
+["Greatstaff of the Crone","Staff","druid","Echo of Varshan","dedicated","unique"],
+["Stone of Vehemen","Totem","druid","Echo of Varshan","dedicated","unique"],
+["Hangman's Hand","Gloves","necromancer","Echo of Varshan","dedicated","unique"],
+["The Hand of Naz","Gloves","necromancer","Echo of Varshan","dedicated","unique"],
+["Death's Pavane","Pants","rogue","Echo of Varshan","dedicated","unique"],
+["Eaglehorn","Bow","rogue","Echo of Varshan","dedicated","unique"],
+["Pitfighter's Gull","Ring","rogue","Echo of Varshan","dedicated","unique"],
+["Levin Grasp","Gloves","sorcerer","Echo of Varshan","dedicated","unique"],
+["Onyx Soul","Focus","sorcerer","Echo of Varshan","dedicated","unique"],
+["Balazan's Maxtlatl","Pants","spiritborn","Echo of Varshan","dedicated","unique"],
+["Seal of the Second Trumpet","Ring","paladin","Echo of Varshan","dedicated","unique"],
+["Wreath of Auric Laurel","Ring","paladin","Echo of Varshan","dedicated","unique"],
+["Thrice-Woven Nightmare","Gloves","warlock","Echo of Varshan","dedicated","unique"],
+["Ae'grom's Schism","Chest Armor","warlock","Echo of Varshan","dedicated","unique"],
+["Seal of the Ophanim","Ring","warlock","Echo of Varshan","dedicated","unique"],
+["Raiment of the Sea","Chest Armor","sorcerer","Echo of Varshan","dedicated","unique"],
+["Wound Drinker","Ring","spiritborn","Echo of Varshan","dedicated","unique"],
+["Temerity","Pants","Any class","Harbinger of Hatred","dedicated","unique"],
+["Nomad's Longing Heart","Amulet","barbarian","Harbinger of Hatred","dedicated","unique"],
+["Ugly Bastard Helm","Helm","barbarian","Harbinger of Hatred","dedicated","unique"],
+["Fleshrender","1h Mace","druid","Harbinger of Hatred","dedicated","unique"],
+["Ifeh's Dire Totem","Totem","druid","Harbinger of Hatred","dedicated","unique"],
+["Might of the Ursine","Ring","druid","Harbinger of Hatred","dedicated","unique"],
+["Blood Wake","Boots","necromancer","Harbinger of Hatred","dedicated","unique"],
+["Pact of Bone","Ring","necromancer","Harbinger of Hatred","dedicated","unique"],
+["The Gloom Ward","Shield","necromancer","Harbinger of Hatred","dedicated","unique"],
+["Etna's Lost Dagger","1h Dagger","rogue","Harbinger of Hatred","dedicated","unique"],
+["Scoundrel's Leathers","Chest Armor","rogue","Harbinger of Hatred","dedicated","unique"],
+["Shrouded Gift","Pants","rogue","Harbinger of Hatred","dedicated","unique"],
+["Flameweaver","Gloves","sorcerer","Harbinger of Hatred","dedicated","unique"],
+["Sidhe Bindings","Gloves","sorcerer","Harbinger of Hatred","dedicated","unique"],
+["Tal Rasha's Iridescent Loop","Ring","sorcerer","Harbinger of Hatred","dedicated","unique"],
+["Sepazontec","Quarterstaff","spiritborn","Harbinger of Hatred","dedicated","unique"],
+["Protean Heart","Amulet","spiritborn","Harbinger of Hatred","dedicated","unique"],
+["Gate of the Red Dawn","Shield","paladin","Harbinger of Hatred","dedicated","unique"],
+["Mantle of the Grey","Chest Armor","paladin","Harbinger of Hatred","dedicated","unique"],
+["Bridle of Tor'Baalos","Helm","warlock","Harbinger of Hatred","dedicated","unique"],
+["Spine of Tathamet","1h Mace","warlock","Harbinger of Hatred","dedicated","unique"],
+["The Fecund Seal","Ring","warlock","Harbinger of Hatred","dedicated","unique"],
+["Bane of Ahjad-Den","Gloves","barbarian","Harbinger of Hatred","dedicated","unique"],
+["Paingorger's Gauntlets","Gloves","Any class","Grigoire","dedicated","unique"],
+["Gohr's Devastating Grips","Gloves","barbarian","Grigoire","dedicated","unique"],
+["Might of Qual-Kehk","Gloves","barbarian","Grigoire","dedicated","unique"],
+["Hunter's Zenith","Ring","druid","Grigoire","dedicated","unique"],
+["The Basilisk","Staff","druid","Grigoire","dedicated","unique"],
+["Will of Stone","Helm","druid","Grigoire","dedicated","unique"],
+["Deathgrip","Gloves","necromancer","Grigoire","dedicated","unique"],
+["The Mortacrux","1h Dagger","necromancer","Grigoire","dedicated","unique"],
+["Desperate March","Boots","rogue","Grigoire","dedicated","unique"],
+["The Maestro","1h Dagger","rogue","Grigoire","dedicated","unique"],
+["Strike of Stormhorn","Focus","sorcerer","Grigoire","dedicated","unique"],
+["Vision of the Firestorm","Helm","sorcerer","Grigoire","dedicated","unique"],
+["Peacemonger's Signet","Ring","spiritborn","Grigoire","dedicated","unique"],
+["Sunstained War-Crozier","Quarterstaff","spiritborn","Grigoire","dedicated","unique"],
+["Bastion of Sir Matthias","Shield","paladin","Grigoire","dedicated","unique"],
+["Sunbrand","Flail","paladin","Grigoire","dedicated","unique"],
+["Hands of the Worldbreaker","Gloves","warlock","Grigoire","dedicated","unique"],
+["Cage of Madness","Helm","warlock","Grigoire","dedicated","unique"],
+["Seed of Horazon","Amulet","warlock","Grigoire","dedicated","unique"],
+["Sire of Sin","Ring","warlock","Grigoire","dedicated","unique"],
+["X'Fal's Corroded Signet","Ring","barbarian druid rogue sorcerer necromancer spiritborn warlock","Lord Zir","dedicated","unique"],
+["Fields of Crimson","2h Sword","barbarian","Lord Zir","dedicated","unique"],
+["Twin Strikes","Gloves","barbarian","Lord Zir","dedicated","unique"],
+["Gathlen's Birthright","Helm","druid","Lord Zir","dedicated","unique"],
+["Unsung Ascetic's Wraps","Gloves","druid","Lord Zir","dedicated","unique"],
+["Waxing Gibbous","1h Axe","druid","Lord Zir","dedicated","unique"],
+["Cruor's Embrace","Gloves","necromancer","Lord Zir","dedicated","unique"],
+["Sanguivor, Blade of Zir","2h Sword","necromancer","Lord Zir","dedicated","unique"],
+["Shroud of Khanduras","Chest Armor","rogue","Lord Zir","dedicated","unique"],
+["Skyhunter","Bow","rogue","Lord Zir","dedicated","unique"],
+["The Umbracrux","1h Dagger","rogue","Lord Zir","dedicated","unique"],
+["Fang of the Vipermagi","1h Dagger","sorcerer","Lord Zir","dedicated","unique"],
+["Rimeblood","Gloves","sorcerer","Lord Zir","dedicated","unique"],
+["Staff of Lam Esen","Staff","sorcerer","Lord Zir","dedicated","unique"],
+["Ring of Writhing Moon","Ring","spiritborn","Lord Zir","dedicated","unique"],
+["Judgment of Auriel","Amulet","paladin","Lord Zir","dedicated","unique"],
+["Judicant's Glaivehelm","Helm","paladin","Lord Zir","dedicated","unique"],
+["Fleshwrit Carapace","Chest Armor","warlock","Lord Zir","dedicated","unique"],
+["Dirge of Odium","2h Axe","warlock","Lord Zir","dedicated","unique"],
+["Elegy","1h Sword","warlock","Lord Zir","dedicated","unique"],
+["Ring of the Midday Hunt","Ring","spiritborn","Lord Zir","dedicated","unique"],
+["Signet of Pelghain","Ring","Any class","Beast in the Ice","dedicated","unique"],
+["The Relentless Heart","Chest Armor","barbarian","Beast in the Ice","dedicated","unique"],
+["Ring of the Ravenous","Ring","barbarian","Beast in the Ice","dedicated","unique"],
+["Accord of the Wilds","Ring","druid","Beast in the Ice","dedicated","unique"],
+["Airidah's Inexorable Will","Ring","druid","Beast in the Ice","dedicated","unique"],
+["Malefic Crescent","Amulet","druid","Beast in the Ice","dedicated","unique"],
+["Deathless Visage","Helm","necromancer","Beast in the Ice","dedicated","unique"],
+["Howl from Below","Gloves","necromancer","Beast in the Ice","dedicated","unique"],
+["Orphan Maker","Crossbow","rogue","Beast in the Ice","dedicated","unique"],
+["Saboteur's Signet","Ring","rogue","Beast in the Ice","dedicated","unique"],
+["Gift of Frost","Boots","sorcerer","Beast in the Ice","dedicated","unique"],
+["Starfall Coronet","Helm","sorcerer","Beast in the Ice","dedicated","unique"],
+["Protection of the Prime","Pants","spiritborn","Beast in the Ice","dedicated","unique"],
+["Scorn of the Earth","Boots","spiritborn","Beast in the Ice","dedicated","unique"],
+["Light's Rebuke","Flail","paladin","Beast in the Ice","dedicated","unique"],
+["Sanctis of Kethamar","Amulet","paladin","Beast in the Ice","dedicated","unique"],
+["Kabraxis' Will","Pants","warlock","Beast in the Ice","dedicated","unique"],
+["Hellhound's Sabatons","Boots","warlock","Beast in the Ice","dedicated","unique"],
+["Vox Omnium","Staff","sorcerer","Beast in the Ice","dedicated","unique"],
+["The Eightfold Idol","Ring","warlock","Beast in the Ice","dedicated","unique"],
+["Yen's Blessing","Boots","Any class","Urivar","dedicated","unique"],
+["Mantle of Mountain's Fury","Chest Armor","barbarian","Urivar","dedicated","unique"],
+["Unbroken Chain","Amulet","barbarian","Urivar","dedicated","unique"],
+["Dark Howl","Gloves","druid","Urivar","dedicated","unique"],
+["Dolmen Stone","Amulet","druid","Urivar","dedicated","unique"],
+["Kilt of Blackwing","Pants","druid","Urivar","dedicated","unique"],
+["Gospel of the Devotee","Focus","necromancer","Urivar","dedicated","unique"],
+["Will of Rathma","Amulet","necromancer","Urivar","dedicated","unique"],
+["Cassia's Grace","Bow","rogue","Urivar","dedicated","unique"],
+["Windforce","Bow","rogue","Urivar","dedicated","unique"],
+["Writhing Band of Trickery","Ring","rogue","Urivar","dedicated","unique"],
+["Flamescar","Wand","sorcerer","Urivar","dedicated","unique"],
+["Iceheart Brais","Pants","sorcerer","Urivar","dedicated","unique"],
+["Molten Band","Ring","sorcerer","Urivar","dedicated","unique"],
+["Sunbird's Gorget","Amulet","spiritborn","Urivar","dedicated","unique"],
+["Band of First Breath","Ring","spiritborn","Urivar","dedicated","unique"],
+["Cathedral's Song","Shield","paladin","Urivar","dedicated","unique"],
+["Herald's Morningstar","1h Mace","paladin","Urivar","dedicated","unique"],
+["Cowl of Malefic Torment","Helm","warlock","Urivar","dedicated","unique"],
+["The Blade of Sight Aflame","1h Sword","warlock","Urivar","dedicated","unique"],
+["Infernal Homunculus","Focus","warlock","Urivar","dedicated","unique"],
+["Shattered Vow","Polearm","barbarian druid spiritborn","","mythic","mythic"],
+["The Grandfather","2h Sword","barbarian necromancer paladin warlock","Lord Zir","mythic","mythic"],
+["Ahavarion, Spear of Lycander","Staff","druid sorcerer","","mythic","mythic"],
+["Nesekem, The Herald","Glaive","spiritborn","","mythic","mythic"],
+["Doombringer","1h Sword","barbarian druid necromancer rogue sorcerer paladin warlock","Beast in the Ice","mythic","mythic"],
+["El'druin, Sword of Justice","1h Sword","barbarian druid necromancer rogue sorcerer paladin warlock","Urivar","mythic","mythic"],
+["Tyrael's Might","Chest Armor","Any class","Grigoire","mythic","mythic"],
+["Harlequin Crest","Helm","Any class","Butcher","mythic","mythic"],
+["Andariel's Visage","Helm","Any class","Andariel","mythic","mythic"],
+["Shroud of False Death","Chest Armor","Any class","Echo of Varshan","mythic","mythic"],
+["Heir of Perdition","Helm","Any class","Harbinger of Hatred","mythic","mythic"],
+["Melted Heart of Selig","Amulet","Any class","Duriel","mythic","mythic"],
+["Ring of Starless Skies","Ring","Any class","Astaroth","mythic","mythic"],
+["Azurewrath","1h Sword","barbarian druid rogue sorcerer necromancer paladin warlock","","shared","unique"],
+["The Butcher's Cleaver","1h Axe","barbarian druid necromancer paladin warlock","","shared","unique"],
+["Thousand-Eye Reaver","1h Axe","barbarian druid necromancer paladin warlock","","shared","unique"],
+["Rustbitten Dirk","1h Dagger","druid rogue sorcerer necromancer warlock","","shared","unique"],
+["Shard of Verathiel","1h Sword","barbarian druid rogue sorcerer necromancer paladin warlock","","shared","unique"],
+["Crown of Lucion","Helm","Any class","","shared","unique"],
+["Endurant Faith","Gloves","Any class","","shared","unique"],
+["Fists of Fate","Gloves","Any class","","shared","unique"],
+["Flickerstep","Boots","Any class","","shared","unique"],
+["Frostburn","Gloves","Any class","","shared","unique"],
+["Godslayer Crown","Helm","Any class","","shared","unique"],
+["Paingorger's Gauntlets","Gloves","Any class","","shared","unique"],
+["Penitent Greaves","Boots","Any class","","shared","unique"],
+["Rakanoth's Wake","Boots","Any class","","shared","unique"],
+["Razorplate","Chest Armor","Any class","","shared","unique"],
+["Soulbrand","Chest Armor","Any class","","shared","unique"],
+["Tassets of the Dawning Sky","Pants","Any class","","shared","unique"],
+["Temerity","Pants","Any class","","shared","unique"],
+["Tibault's Will","Pants","Any class","","shared","unique"],
+["Wyrdskin","Gloves","Any class","","shared","unique"],
+["Yen's Blessing","Boots","Any class","","shared","unique"],
+["Banished Lord's Talisman","Amulet","barbarian druid rogue sorcerer necromancer","","shared","unique"],
+["Blood-Mad Idol","Amulet","Any class","","shared","unique"],
+["Locran's Talisman","Amulet","Any class","","shared","unique"],
+["Mother's Embrace","Ring","Any class","","shared","unique"],
+["Signet of Pelghain","Ring","Any class","","shared","unique"],
+["Wendigo Brand","Ring","Any class","","shared","unique"],
+["X'Fal's Corroded Signet","Ring","barbarian druid rogue sorcerer necromancer spiritborn warlock","","shared","unique"],
+["Thundergod's Blessing","Ring","sorcerer druid spiritborn","","shared","unique"],
+["Stone of Jordan","Ring","Any class","","legacy","unique"],
+["Leoric's Crown","Helm","Any class","","legacy","unique"],
+["Nemesis Bracers","Gloves","Any class","","legacy","unique"],
+["Squirt's Blouse","Chest Armor","Any class","","legacy","unique"],
+["Arioc's Needle","Polearm","barbarian druid spiritborn","","legacy","unique"],
+["Henri's Perquisition","Focus","sorcerer necromancer warlock","","legacy","unique"],
+["In-Geom","1h Sword","barbarian druid rogue necromancer paladin sorcerer warlock","","legacy","unique"],
+["The Furnace","2h Mace","barbarian druid necromancer paladin warlock","","legacy","unique"],
+["Messerschmidt's Reaver","2h Axe","barbarian druid necromancer paladin warlock","","legacy","unique"]
+];
+
+var BOSSMETA = {
+ "andariel": {n:"Andariel", loc:"Hanged Man’s Hall, Kehjistan", sum:"1 Greater Lair Key", dmg:"All", cos:"Smoldering Brimstone Mount"},
+ "astaroth": {n:"Astaroth", loc:"Escalation Sigil", sum:"Escalation Sigil from Nightmare Dungeons with Recurring Nightmare selected in War Plans", dmg:"Fire", cos:""},
+ "bartuc": {n:"Bartuc", loc:"Infernal Hordes", sum:"Infernal Compass; reach 666 Aether", dmg:"Fire and Shadow", cos:""},
+ "the-beast-in-the-ice": {n:"Beast in the Ice", loc:"Glacial Fissure, south of Kyovashad", sum:"1 Lair Key", dmg:"Cold", cos:"Skull Torch; Binding the Fell Steed"},
+ "belial": {n:"Belial", loc:"", sum:"", dmg:"Shadow and Poison", cos:""},
+ "bloodied-butcher": {n:"Butcher", loc:"The Broiler, Gea Kul", sum:"1 Greater Lair Key", dmg:"Fire and Physical", cos:""},
+ "duriel": {n:"Duriel", loc:"Gaping Crevasse, Kehjistan", sum:"1 Greater Lair Key", dmg:"Poison", cos:"Smoldering Brimstone Mount"},
+ "echo-of-varshan": {n:"Echo of Varshan", loc:"Malignant Burrow, by Tree of Whispers", sum:"1 Lair Key", dmg:"Shadow and Physical", cos:"Flesh-weld Rod Trophy"},
+ "grigoire": {n:"Grigoire", loc:"Hall of the Penitent, south of Ked Bardu", sum:"1 Lair Key", dmg:"Lightning", cos:"Demonbinder Mount Armor"},
+ "harbinger-of-hatred": {n:"Harbinger of Hatred", loc:"Nahantu", sum:"1 Greater Lair Key", dmg:"Shadow", cos:""},
+ "lord-zir": {n:"Lord Zir", loc:"The Darkened Way, east of Kyovashad", sum:"1 Greater Lair Key", dmg:"Fire", cos:"Diadem of the Ancient Helm"},
+ "urivar": {n:"Urivar", loc:"Fields of Judgement, West of Zarbinzet", sum:"1 Lair Key", dmg:"Fire", cos:""}
+};
+
+var LOOT_BOSSES = ["Andariel","Astaroth","Bartuc","Belial","Beast in the Ice","Butcher",
+  "Duriel","Echo of Varshan","Grigoire","Harbinger of Hatred","Lord Zir","Urivar"];
+var LOOT_CLASSES = ["barbarian","druid","necromancer","paladin","rogue","sorcerer",
+  "spiritborn","warlock"];
+var lootBoss = "", lootClass = "", lootQ = "";
+
+function bossSlug(n){
+  for (var k in BOSSMETA) { if (BOSSMETA[k].n === n) return k; }
+  return "";
+}
+
+function lootClassText(c){
+  if (c === "Any class") return "Any class";
+  return c.split(" ").map(function(w){
+    return w.charAt(0).toUpperCase() + w.slice(1);
+  }).join(", ");
+}
+
+function renderLootChips(){
+  var bs = '<button class="chip' + (lootBoss === "" ? " on" : "") + '" data-lb="">All bosses</button>';
+  bs += LOOT_BOSSES.map(function(b){
+    return '<button class="chip' + (lootBoss === b ? " on" : "") + '" data-lb="' + b + '">' + b + '</button>';
+  }).join("");
+  bs += '<button class="chip' + (lootBoss === "~mythic" ? " on" : "") + '" data-lb="~mythic">Mythics only</button>';
+  bs += '<button class="chip' + (lootBoss === "~shared" ? " on" : "") + '" data-lb="~shared">Shared pool</button>';
+  bs += '<button class="chip' + (lootBoss === "~legacy" ? " on" : "") + '" data-lb="~legacy">Legacy</button>';
+  $("#loot-bosses").innerHTML = bs;
+
+  var cs = '<button class="chip' + (lootClass === "" ? " on" : "") + '" data-lc="">All classes</button>';
+  cs += LOOT_CLASSES.map(function(c){
+    return '<button class="chip' + (lootClass === c ? " on" : "") + '" data-lc="' + c + '">' +
+           c.charAt(0).toUpperCase() + c.slice(1) + '</button>';
+  }).join("");
+  $("#loot-classes").innerHTML = cs;
+
+  $$("#loot-bosses .chip").forEach(function(b){
+    b.onclick = function(){ lootBoss = b.dataset.lb; renderLoot(); };
+  });
+  $$("#loot-classes .chip").forEach(function(b){
+    b.onclick = function(){ lootClass = b.dataset.lc; renderLoot(); };
+  });
+}
+
+function renderLoot(){
+  renderLootChips();
+
+  var m = lootBoss && lootBoss.charAt(0) !== "~" ? BOSSMETA[bossSlug(lootBoss)] : null;
+  if (m) {
+    var bits = [];
+    if (m.loc) bits.push("<b>Location</b> &mdash; " + m.loc);
+    if (m.sum) bits.push("<b>Summoning</b> &mdash; " + m.sum);
+    if (m.dmg) bits.push("<b>Damage type</b> &mdash; " + m.dmg);
+    if (m.cos) bits.push("<b>Cosmetic</b> &mdash; " + m.cos);
+    $("#loot-info").innerHTML = "<b>" + m.n + "</b><br>" + bits.join("<br>");
+    $("#loot-info").style.display = "";
+  } else {
+    $("#loot-info").style.display = "none";
+  }
+
+  var list = LOOT.filter(function(x){
+    if (lootBoss === "~mythic") { if (x[5] !== "mythic") return false; }
+    else if (lootBoss === "~shared") { if (x[4] !== "shared") return false; }
+    else if (lootBoss === "~legacy") { if (x[4] !== "legacy") return false; }
+    else if (lootBoss && x[3] !== lootBoss) return false;
+    if (lootClass && x[2] !== "Any class" && x[2].indexOf(lootClass) < 0) return false;
+    if (lootQ && x[0].toLowerCase().indexOf(lootQ) < 0) return false;
+    return true;
+  });
+
+  $("#loot-count").innerHTML = "Showing <b>" + list.length + "</b> of " + LOOT.length + " items.";
+
+  $("#loot-table tbody").innerHTML = list.map(function(x){
+    var q = x[5] === "mythic" ? ' <span class="bdg inv">Mythic</span>' : "";
+    return '<tr>' +
+      '<td class="rw"><b>' + x[0] + '</b>' + q + '</td>' +
+      '<td class="sm">' + x[1] + '</td>' +
+      '<td class="sm">' + lootClassText(x[2]) + '</td>' +
+      '<td class="sm">' + (x[3] || "&mdash;") + '</td>' +
+      '<td class="sm">' + x[4] + '</td>' +
+      '</tr>';
+  }).join("");
+}
+
 function renderAffixPools(){
   function rows(list){
     return list.map(function(a){
@@ -1390,7 +1832,8 @@ function renderTypes(){
 }
 
 /* ---------------- INIT ---------------- */
-renderTypes(); renderBosses(); renderAffixPools(); renderSplinters(); renderPalette(); renderCube(); renderRecipes(""); renderRW(); renderMyth(); renderLadder(); renderCost();
+$("#loot-q").oninput = function(){ lootQ = this.value.trim().toLowerCase(); renderLoot(); };
+renderTypes(); renderBosses(); renderAffixPools(); renderSplinters(); renderLoot(); renderPalette(); renderCube(); renderRecipes(""); renderRW(); renderMyth(); renderLadder(); renderCost();
 </script>
 </body>
 </html>
