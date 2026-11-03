@@ -631,6 +631,24 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
 </div>
 
 <div class="panel" style="margin-top:16px">
+  <h2>Craftable Unique Charms &mdash; the full list</h2>
+  <p class="sm">
+    <b>Craft Unique Charm</b> turns an Ancestral Unique into a Unique Charm, but the recipe refuses
+    most of them. These <b>133</b> are the ones it accepts. Anything not on this list cannot be made
+    into a charm, however good the item is &mdash; check here before you feed a Unique to the cube.
+  </p>
+  <div class="chips" id="charm-classes" style="margin-top:10px"></div>
+  <p class="sm" id="charm-count" style="margin-top:10px"></p>
+  <div id="charm-list"></div>
+  <div class="note" style="margin-top:12px">
+    <b>Shared means every class.</b> Those 36 work no matter what you play. The rest are tied to the
+    class they are listed under. Two items, X'Fal's Corroded Signet and Yen's Blessing, are printed in
+    both the Shared block and the Barbarian block at the source &mdash; the Shared entry is the one
+    that counts (?).
+  </div>
+</div>
+
+<div class="panel" style="margin-top:16px">
   <h2>Greater Affixes &mdash; the stars on an item</h2>
   <p class="sm">
     The small stars beside an item's name count its <b>Greater Affixes</b>, and each star marks one
@@ -899,8 +917,8 @@ var OTHER = [
   {n:"Reroll Set Charm",
    m:"1x Set Charm + 25x Raw Dust + 50x Infused Horadric Resin", o:""},
   {n:"Craft Unique Charm",
-   m:"1x Ancestral Unique + 3x Unique Charms + 1x Enhanced Primordial Dust + 50x Raw Dust + 100x Infused Horadric Resin",
-   o:"Some Uniques are excluded."},
+   m:"1x Ancestral Unique + 3x any Unique Charms + 1x Enhanced Primordial Dust + 50x Raw Primordial Dust + 100x Infused Horadric Resin",
+   o:"Transmutes the Ancestral Unique into a Unique Charm. Some Uniques are excluded, so the full list of the 133 that work is below the table."},
   {n:"Recycle Uniques",
    m:"3x the same Unique item, Unique Charm or Mythic Seal",
    o:"Gives one fresh roll of that same Unique. It is a reroll, not an upgrade: you spend three to get one back, and the new roll can be worse. Listed as three recipes (Unique, Mythic, crafted Mythic)."},
@@ -914,10 +932,10 @@ var OTHER = [
    o:"Produces an Escalation Sigil. Tested in game: five sigils from five dungeons across three regions were accepted. The output's dungeon is rolled fresh and matches none of the inputs. For what happens to the affixes, see the Escalation Sigils note below the table."},
   {n:"Amalgamation &mdash; Tributes",
    m:"5x the same Tribute (Ingenuity, Refinement, Armaments, Heritage, Harmony, the Horadrim, and their Lesser/Greater versions)",
-   o:"10 recipes. Each gives a random item of the next tier up, e.g. 5 Rare Tributes into 1 Legendary Tribute."},
+   o:"10 recipes. The type carries: 5 Magic Tributes give a Rare Tribute <i>of that same type</i>, 5 Rare give a Legendary of that type. One special case sits on top: 5x Greater Tribute of Armaments gives a Mythic Tribute of Armaments."},
   {n:"Amalgamation &mdash; Gems",
-   m:"5x Grand Gem, or 5x Horadric Gem",
-   o:"14 recipes. 5 Grand Gems give a Horadric Gem; 5 Horadric Gems give a Flawless Horadric Gem."},
+   m:"5x the same Grand Gem, or 5x the same Horadric Gem",
+   o:"14 recipes. The type carries here too: 5 Grand Gems give a Horadric Gem of the same type, and 5 of those give a Flawless Horadric Gem of that type. This is the only way to make Horadric and Flawless Horadric gems."},
   {n:"Amalgamation &mdash; Boss Trophies",
    m:"5x the same Boss Trophy",
    o:"14 recipes. Rolls a random Unique from that boss's drop pool."},
@@ -925,8 +943,8 @@ var OTHER = [
    m:"5x the same Soul Splinter",
    o:"24 recipes, the largest amalgamation group."},
   {n:"Amalgamation &mdash; Runes",
-   m:"5x the same rune",
-   o:"2 recipes. Separate from the rune ladder above, which is the cheaper route."}
+   m:"5x <i>any</i> Magic Runes, or 5x <i>any</i> Rare Runes",
+   o:"2 recipes, and they do not work like the rest. The runes need not match, and the output is a <b>random</b> rune of the next tier &mdash; random Rare from five Magic, random Legendary from five Rare. The rune ladder above is the targeted route; this one is for clearing junk."}
 ];
 
 var MYTHICS = [
@@ -1807,6 +1825,47 @@ function renderLoot(){
   }).join("");
 }
 
+var CHARMS = {
+ "Shared": ["Arioc's Needle","Azurewrath","Banished Lord's Talisman","Blood-Mad Idol","Crown of Lucion","Endurant Faith","Fists of Fate","Flickerstep","Frostburn","Godslayer Crown","Henri's Perquisition","In-Geom","Locran's Talisman","Mother's Embrace","Nemesis Bracers","Paingorger's Gauntlets","Penitent Greaves","Rakanoth's Wake","Razorplate","Rustbitten Dirk","Squirt's Blouse","Shard of Verathiel","Signet of Pelghain","Soulbrand","Stone of Jordan","Tassets of the Dawning Sky","Temerity","The Furnace","Tibault's Will","The Butcher's Cleaver","Thousand-Eye Reaver","Thundergod's Blessing","Wendigo Brand","Wyrdskin","X'Fal's Corroded Signet","Yen's Blessing"],
+ "Barbarian": ["Arreat's Bearing","Chainscourged Mail","Dark Stalker's Medallion","Emblem of Staalbreak","Hooves of the Mountain God","Nomad's Longing Heart","Rage of Harrogath","Ramaladni's Magnum Opus","Ring of Red Furor","Sabre of Tsasgal","The Third Blade","The Open Eye of Gorgorra","X'Fal's Corroded Signet","Yen's Blessing"],
+ "Druid": ["Accord of the Wilds","Dirge of Airidah","Fractured Runestone","Fury of the Wilds","Greenwalker's Signet","Mark of the Old Wolf","Might of the Ursine","The Basilisk"],
+ "Necromancer": ["Blood Moon Breeches","Gospel of the Devotee","Gravewalker's Hand","Omen of Pain","Pact of Bone","Red Blessing","The Gloom Ward","The Mortacrux","Will of Rathma"],
+ "Paladin": ["Arcadia","Argent Veil","Cathedral's Song","Griswold's Opus","Herald of Zakarum","Judicant's Glaivehelm","Mantle of the Grey","Sanctis of Kethamar","Seal of the Second Trumpet","Sundered Night"],
+ "Rogue": ["Assassin's Stride","Beastfall Boots","Condemnation","Cowl of the Nameless","Etna's Lost Dagger","Fist of the Iron Rose","Gladiator's Triumph","Grasp of Shadow","Misericorde","Saboteur's Signet","Scoundrel's Kiss","Scoundrel's Leathers","Sea Lord's Fine Gloves","The Umbracrux","Writhing Band of Trickery"],
+ "Sorcerer": ["Drognan's Anguish","Emberfury","Esu's Heirloom","Molten Band","Orsivane","Tal Rasha's Iridescent Loop","Vox Omnium"],
+ "Spiritborn": ["Balazan's Maxtlatl","Band of First Breath","Echo of Kwatli","Harmony of Ebewaka","Jacinth Shell","Loyalty's Mantle","Peacemonger's Signet","Protean Heart","Protection of the Prime","Ring of the Midday Hunt","Ring of the Midnight Sun","Ring of Writhing Moon","Rod of Kepeleke","Sepazontec","Sunbird's Gorget","Sunstained War-Crozier","Widow's Web","Wound Drinker","Wushe Nak Pa"],
+ "Warlock": ["Ae'grom's Schism","Anathema of the Primes","Dirge of Odium","Eye of Baal","Fleshwrit Carapace","Hand of Apotheosis","Hellhound's Sabatons","Infernal Homunculus","Moloch's Beating Flame","Morlu Fleshward","Night Terror","Rictus of Terror","Scepter of the Three","Seed of Horazon","The Hemat Stone"]
+};
+
+var CHARM_ORDER = ["Shared","Barbarian","Druid","Necromancer","Paladin","Rogue",
+  "Sorcerer","Spiritborn","Warlock"];
+var charmClass = "";
+
+function renderCharms(){
+  var cs = '<button class="chip' + (charmClass === "" ? " on" : "") + '" data-cc="">All</button>';
+  cs += CHARM_ORDER.map(function(c){
+    return '<button class="chip' + (charmClass === c ? " on" : "") + '" data-cc="' + c + '">' +
+           c + ' <span class="sm">' + CHARMS[c].length + '</span></button>';
+  }).join("");
+  $("#charm-classes").innerHTML = cs;
+  $$("#charm-classes .chip").forEach(function(b){
+    b.onclick = function(){ charmClass = b.dataset.cc; renderCharms(); };
+  });
+
+  var show = charmClass ? [charmClass] : CHARM_ORDER;
+  var total = 0;
+  show.forEach(function(c){ total += CHARMS[c].length; });
+  $("#charm-count").innerHTML = "Showing <b>" + total + "</b> charms.";
+
+  $("#charm-list").innerHTML = show.map(function(c){
+    return '<h3 style="margin-top:16px">' + c +
+      ' <span class="sm">&mdash; ' + CHARMS[c].length + '</span></h3>' +
+      '<div class="chips">' + CHARMS[c].map(function(n){
+        return '<span class="chip">' + n + '</span>';
+      }).join("") + '</div>';
+  }).join("");
+}
+
 function renderAffixPools(){
   function rows(list){
     return list.map(function(a){
@@ -1833,7 +1892,7 @@ function renderTypes(){
 
 /* ---------------- INIT ---------------- */
 $("#loot-q").oninput = function(){ lootQ = this.value.trim().toLowerCase(); renderLoot(); };
-renderTypes(); renderBosses(); renderAffixPools(); renderSplinters(); renderLoot(); renderPalette(); renderCube(); renderRecipes(""); renderRW(); renderMyth(); renderLadder(); renderCost();
+renderTypes(); renderBosses(); renderAffixPools(); renderSplinters(); renderCharms(); renderLoot(); renderPalette(); renderCube(); renderRecipes(""); renderRW(); renderMyth(); renderLadder(); renderCost();
 </script>
 </body>
 </html>
