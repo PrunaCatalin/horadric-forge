@@ -140,6 +140,7 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
   <button class="tab" data-v="ladder">Rune Ladder</button>
   <button class="tab" data-v="myth">Mythics</button>
   <button class="tab" data-v="loot">Boss Loot</button>
+  <button class="tab" data-v="charms">Unique Charms</button>
   <button class="tab" data-v="other">Other Recipes</button>
 </div>
 
@@ -524,6 +525,26 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
 </div>
 </section>
 
+<section class="view" id="v-charms">
+<div class="panel" style="margin-top:16px">
+  <h2>Craftable Unique Charms &mdash; the full list</h2>
+  <p class="sm">
+    <b>Craft Unique Charm</b> turns an Ancestral Unique into a Unique Charm, but the recipe refuses
+    most of them. These <b>133</b> are the ones it accepts. Anything not on this list cannot be made
+    into a charm, however good the item is &mdash; check here before you feed a Unique to the cube.
+  </p>
+  <div class="chips" id="charm-classes" style="margin-top:10px"></div>
+  <p class="sm" id="charm-count" style="margin-top:10px"></p>
+  <div id="charm-list"></div>
+  <div class="note" style="margin-top:12px">
+    <b>Shared means every class.</b> Those 36 work no matter what you play. The rest are tied to the
+    class they are listed under. Two items, X'Fal's Corroded Signet and Yen's Blessing, are printed in
+    both the Shared block and the Barbarian block at the source &mdash; the Shared entry is the one
+    that counts (?).
+  </div>
+</div>
+</section>
+
 <section class="view" id="v-other">
 <div class="panel">
   <h2>The rest of the cube recipes</h2>
@@ -628,24 +649,6 @@ footer{text-align:center;margin-top:48px;color:var(--dim);font-size:12px}
     patch 3.2.1. Two families break the shared resistance line: Black Soulstone gives All Stats and
     Hellfire gives All Elements.
   </p>
-</div>
-
-<div class="panel" style="margin-top:16px">
-  <h2>Craftable Unique Charms &mdash; the full list</h2>
-  <p class="sm">
-    <b>Craft Unique Charm</b> turns an Ancestral Unique into a Unique Charm, but the recipe refuses
-    most of them. These <b>133</b> are the ones it accepts. Anything not on this list cannot be made
-    into a charm, however good the item is &mdash; check here before you feed a Unique to the cube.
-  </p>
-  <div class="chips" id="charm-classes" style="margin-top:10px"></div>
-  <p class="sm" id="charm-count" style="margin-top:10px"></p>
-  <div id="charm-list"></div>
-  <div class="note" style="margin-top:12px">
-    <b>Shared means every class.</b> Those 36 work no matter what you play. The rest are tied to the
-    class they are listed under. Two items, X'Fal's Corroded Signet and Yen's Blessing, are printed in
-    both the Shared block and the Barbarian block at the source &mdash; the Shared entry is the one
-    that counts (?).
-  </div>
 </div>
 
 <div class="panel" style="margin-top:16px">
